@@ -783,7 +783,7 @@ button,
 
 /* Full grid with all 7 services */
 .hsp-grid-full {
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
 }
 
 .hsp-card {
