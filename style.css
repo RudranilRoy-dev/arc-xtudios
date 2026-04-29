@@ -1,53 +1,43 @@
 /* ══════════════════════════════════════════════════
    ARC Xtudios — Agency Upgrade
-   Palette: Obsidian × Champagne Gold × Pearl Bone
+   Palette: Deep Prussian Blue × Imperial Gold × Luminous White
    Ref: Aman, Rolex, The Mill, RSA Films
 ══════════════════════════════════════════════════ */
 
 /* ── DESIGN TOKENS ─────────────────────────────── */
 :root {
 
-    /* ── BACKGROUND FAMILY · Obsidian ── */
-    --bg-base: #0A0908;
-    /* obsidian — warm deep black      */
-    --bg-raise: #100E0C;
-    /* lifted surface                  */
-    --bg-card: #16130F;
-    /* card / panel                    */
-    --bg-hover: #1F1B16;
-    /* hover / active                  */
+    /* ── BACKGROUND FAMILY · Deep Prussian Blue ── */
+    --bg-base:  #001B3A;   /* Deep Prussian Blue - main bg */
+    --bg-raise: #002448;   /* slightly lighter prussian */
+    --bg-card:  #002E58;   /* card surface */
+    --bg-hover: #003868;   /* hover */
 
-    /* ── TEXT FAMILY · Pearl Bone ── */
-    --tx-head: #F5F1EA;
-    /* pearl bone — hero text          */
-    --tx-body: #A8A199;
-    /* warm smoke                      */
-    --tx-muted: #6B645C;
-    /* aged bronze grey                */
-    --tx-faint: #3A332C;
-    /* captions / disabled             */
+    /* ── TEXT FAMILY · Luminous White & Blue-Grey ── */
+    --tx-head:  #F8F5EE;   /* warm luminous white */
+    --tx-body:  #A8B4C4;   /* blue-grey body text */
+    --tx-muted: #5A6878;   /* muted blue-grey */
+    --tx-faint: #2A3440;   /* very faint */
 
-    /* ── PRIMARY ACCENT · Champagne Gold ── */
-    --gold: #C9A961;
-    /* champagne gold — luxury signature */
-    --gold-bright: #E5C989;
-    /* warm champagne for hover / em   */
+    /* ── PRIMARY ACCENT · Imperial Gold ── */
+    --gold:        #C8960A;  /* Imperial Gold */
+    --gold-bright: #E8B020;  /* Bright gold */
 
     /* ── SECONDARY ACCENT · Antique Brass ── */
-    --chrome: #8B7D5C;
-    /* antique brass / patina          */
-    --chrome-dim: rgba(201, 169, 97, 0.12);
-    /* structural borders */
+    --chrome:     #8B7D5C;  /* antique brass / patina */
+    --chrome-dim: rgba(200, 150, 10, 0.12); /* structural borders */
 
     /* ── BORDER / LINE ── */
-    --line: rgba(201, 169, 97, 0.14);
-    /* champagne-tinted   */
-    --line-soft: rgba(245, 241, 234, 0.05);
+    --line:      rgba(200, 150, 10, 0.16);  /* gold-tinted borders */
+    --line-soft: rgba(255, 255, 255, 0.08);
 
-    /* ── OVERLAY · Obsidian ── */
-    --ov-deep: rgba(10, 9, 8, 0.94);
-    --ov-mid: rgba(10, 9, 8, 0.62);
-    --ov-light: rgba(10, 9, 8, 0.28);
+    /* ── OVERLAY · Deep Prussian ── */
+    --ov-deep:  rgba(0, 27, 58, 0.92);
+    --ov-mid:   rgba(0, 27, 58, 0.60);
+    --ov-light: rgba(0, 27, 58, 0.28);
+
+    /* ── NEUTRALS ── */
+    --white: #F8F5EE;   /* luminous white */
 
     /* ── EASING ── */
     --ease: cubic-bezier(.76, 0, .24, 1);
@@ -114,7 +104,7 @@ button,
     display: flex;
     align-items: center;
     justify-content: space-between;
-    background: rgba(10, 9, 8, 0.94);
+    background: rgba(0, 27, 58, 0.94);
     backdrop-filter: blur(20px);
     border-bottom: 1px solid var(--line);
     transition: transform 0.7s cubic-bezier(0.22, 1, 0.36, 1),
@@ -141,7 +131,7 @@ button,
     transform: translateY(0);
     opacity: 1;
     backdrop-filter: blur(14px);
-    background: rgba(10, 9, 8, 0.62);
+    background: rgba(0, 27, 58, 0.62);
 }
 
 .nav-brand span {
@@ -206,7 +196,7 @@ button,
     background: var(--gold);
     color: var(--bg-base);
     border-color: var(--gold);
-    box-shadow: 0 0 20px rgba(201, 169, 97, .35);
+    box-shadow: 0 0 20px rgba(200, 150, 10, .35);
 }
 
 .hamburger {
@@ -241,12 +231,12 @@ button,
     object-fit: cover;
     border: 1px solid var(--line);
     padding: 4px;
-    background: rgba(245, 241, 234, .04);
+    background: rgba(248, 245, 238, .04);
     transition: box-shadow .3s;
 }
 
 .nav-brand:hover .logo-circle {
-    box-shadow: 0 0 0 4px rgba(201, 169, 97, 0.16);
+    box-shadow: 0 0 0 4px rgba(200, 150, 10, 0.16);
 }
 
 .brand-name {
@@ -308,7 +298,7 @@ button,
 
 #pg-home .logo-circle {
     background: transparent;
-    border: 1px solid rgba(245, 241, 234, .18);
+    border: 1px solid rgba(248, 245, 238, .18);
 }
 
 /* ── Hero ── */
@@ -359,8 +349,8 @@ button,
     position: absolute;
     inset: 0;
     background:
-        linear-gradient(to top, rgba(10, 9, 8, 0.97) 0%, rgba(10, 9, 8, .20) 45%, transparent 100%),
-        linear-gradient(to right, rgba(10, 9, 8, .75) 0%, transparent 58%);
+        linear-gradient(to top, rgba(0, 27, 58, 0.97) 0%, rgba(0, 27, 58, .20) 45%, transparent 100%),
+        linear-gradient(to right, rgba(0, 27, 58, .75) 0%, transparent 58%);
 }
 
 /* ── Noise/grain texture on hero for film depth ── */
@@ -471,7 +461,7 @@ button,
 
 .btn-hero-fill:hover {
     transform: translateY(-2px);
-    box-shadow: 0 0 36px rgba(201, 169, 97, .45), 0 8px 28px rgba(0, 0, 0, .7);
+    box-shadow: 0 0 36px rgba(200, 150, 10, .45), 0 8px 28px rgba(0, 0, 0, .7);
 }
 
 .btn-hero-ghost {
@@ -492,8 +482,8 @@ button,
 .btn-hero-ghost:hover {
     border-color: var(--gold);
     color: var(--gold);
-    background: rgba(201, 169, 97, .06);
-    box-shadow: 0 0 24px rgba(201, 169, 97, .22);
+    background: rgba(200, 150, 10, .06);
+    box-shadow: 0 0 24px rgba(200, 150, 10, .22);
 }
 
 /* dots */
@@ -759,7 +749,7 @@ button,
     text-transform: uppercase;
     color: var(--gold);
     text-decoration: none;
-    border-bottom: 1px solid rgba(201, 169, 97, .28);
+    border-bottom: 1px solid rgba(200, 150, 10, .28);
     padding-bottom: 3px;
     font-weight: 400;
     background: none;
@@ -847,9 +837,9 @@ button,
 }
 
 .hsp-card:hover {
-    border-color: rgba(201, 169, 97, .26);
+    border-color: rgba(200, 150, 10, .26);
     transform: translateY(-5px);
-    box-shadow: 0 24px 64px rgba(0, 0, 0, .85), 0 0 0 1px rgba(201, 169, 97, .26);
+    box-shadow: 0 24px 64px rgba(0, 0, 0, .85), 0 0 0 1px rgba(200, 150, 10, .26);
 }
 
 .hsp-card-num {
@@ -863,7 +853,7 @@ button,
 }
 
 .hsp-card:hover .hsp-card-num {
-    color: rgba(201, 169, 97, .55);
+    color: rgba(200, 150, 10, .55);
 }
 
 .hsp-card-img {
@@ -1293,7 +1283,7 @@ button,
     font-size: 1.6rem;
     opacity: 0;
     transition: opacity .3s;
-    background: rgba(10, 9, 8, .42);
+    background: rgba(0, 27, 58, .42);
 }
 
 .insta-cell:hover .insta-hover {
@@ -1303,7 +1293,7 @@ button,
 .insta-link {
     color: var(--gold);
     text-decoration: none;
-    border-bottom: 1px solid rgba(201, 169, 97, 0.28);
+    border-bottom: 1px solid rgba(200, 150, 10, 0.28);
     padding-bottom: 1px;
     transition: color .3s, border-color .3s;
     font-style: italic;
@@ -1375,12 +1365,12 @@ button,
      SITE FOOTER
   ══════════════════════════════════════════════════ */
 .site-footer {
-    background: #060504;
+    background: #00111f;
     border-top: 1px solid var(--line);
     color: #D0CCC6;
     font-family: 'Jost', sans-serif;
     position: relative;
-    text-shadow: 0 0 6px rgba(245, 241, 234, 0.03);
+    text-shadow: 0 0 6px rgba(248, 245, 238, 0.03);
 }
 
 .site-footer h4,
@@ -1443,7 +1433,7 @@ button,
     border: 1px solid var(--line);
     filter: brightness(.85);
     padding: 3px;
-    background: rgba(245, 241, 234, .03);
+    background: rgba(248, 245, 238, .03);
 }
 
 .footer-brand-name {
@@ -1462,14 +1452,14 @@ button,
     font-size: 1rem;
     font-style: italic;
     font-weight: 300;
-    color: rgba(201, 169, 97, .32);
+    color: rgba(200, 150, 10, .32);
     line-height: 1.6;
     margin-bottom: 18px;
 }
 
 .footer-about-text {
     font-size: .78rem;
-    color: rgba(168, 161, 153, .55);
+    color: rgba(168, 180, 196, .55);
     line-height: 1.9;
     font-weight: 300;
     margin-bottom: 28px;
@@ -1488,7 +1478,7 @@ button,
     display: flex;
     align-items: center;
     justify-content: center;
-    color: rgba(168, 161, 153, .60);
+    color: rgba(168, 180, 196, .60);
     text-decoration: none;
     transition: all .3s;
     cursor: pointer;
@@ -1497,7 +1487,7 @@ button,
 .fsoc:hover {
     border-color: var(--gold);
     color: var(--gold);
-    background: rgba(201, 169, 97, .07);
+    background: rgba(200, 150, 10, .07);
 }
 
 .fsoc svg {
@@ -1509,7 +1499,7 @@ button,
     font-size: .58rem;
     letter-spacing: .3em;
     text-transform: uppercase;
-    color: rgba(201, 169, 97, .32);
+    color: rgba(200, 150, 10, .32);
     font-weight: 400;
     margin-bottom: 22px;
     padding-bottom: 12px;
@@ -1545,7 +1535,7 @@ button,
     font-size: .56rem;
     letter-spacing: .26em;
     text-transform: uppercase;
-    color: rgba(201, 169, 97, 0.55);
+    color: rgba(200, 150, 10, 0.55);
     display: block;
     margin-bottom: 3px;
 }
@@ -1586,7 +1576,7 @@ button,
     background: var(--gold);
     color: var(--bg-base);
     border-color: var(--gold);
-    box-shadow: 0 0 18px rgba(201, 169, 97, .35);
+    box-shadow: 0 0 18px rgba(200, 150, 10, .35);
 }
 
 .footer-bottom {
@@ -1711,7 +1701,7 @@ button,
     background: var(--gold);
     color: var(--bg-base);
     border-color: var(--gold);
-    box-shadow: 0 4px 20px rgba(201, 169, 97, .42);
+    box-shadow: 0 4px 20px rgba(200, 150, 10, .42);
     letter-spacing: .22em;
 }
 
@@ -2071,7 +2061,7 @@ button,
 }
 
 .svc-row:hover {
-    background: rgba(201, 169, 97, .035);
+    background: rgba(200, 150, 10, .035);
     border-left-color: var(--gold);
     padding-left: 28px;
 }
@@ -2085,7 +2075,7 @@ button,
 }
 
 .svc-row:hover .svc-n {
-    color: rgba(201, 169, 97, .55);
+    color: rgba(200, 150, 10, .55);
 }
 
 .svc-title {
@@ -2224,7 +2214,7 @@ button,
 }
 
 .tfeat:hover {
-    border-color: rgba(201, 169, 97, .26);
+    border-color: rgba(200, 150, 10, .26);
 }
 
 .tfeat::before {
@@ -2309,7 +2299,7 @@ button,
 }
 
 .tsec:hover {
-    border-color: rgba(201, 169, 97, .22);
+    border-color: rgba(200, 150, 10, .22);
 }
 
 .tsec-stars {
@@ -2486,7 +2476,7 @@ button,
     border-radius: 50%;
     flex-shrink: 0;
     margin-top: 7px;
-    box-shadow: 0 0 10px rgba(201, 169, 97, .4);
+    box-shadow: 0 0 10px rgba(200, 150, 10, .4);
 }
 
 .cinfo-lbl {
@@ -2525,7 +2515,7 @@ button,
 .csoc:hover {
     border-color: var(--gold);
     color: var(--gold);
-    background: rgba(201, 169, 97, .07);
+    background: rgba(200, 150, 10, .07);
 }
 
 .contact-foot {
@@ -2574,7 +2564,7 @@ button,
     width: 100%;
     background: transparent;
     border: none;
-    border-bottom: 1px solid rgba(201, 169, 97, .16);
+    border-bottom: 1px solid rgba(200, 150, 10, .16);
     color: var(--tx-head);
     padding: 10px 0;
     font-family: 'Jost', sans-serif;
@@ -2666,7 +2656,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 .btn-submit:hover {
     background: var(--gold-bright);
     transform: translateY(-2px);
-    box-shadow: 0 0 28px rgba(201, 169, 97, .4), 0 8px 24px rgba(0, 0, 0, .6);
+    box-shadow: 0 0 28px rgba(200, 150, 10, .4), 0 8px 24px rgba(0, 0, 0, .6);
 }
 
 .btn-wa-sm {
@@ -2841,7 +2831,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     position: fixed;
     inset: 0;
     z-index: 800;
-    background: rgba(10, 9, 8, .97);
+    background: rgba(0, 27, 58, .97);
     display: none;
     align-items: center;
     justify-content: center;
@@ -2856,7 +2846,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     max-height: 86vh;
     object-fit: contain;
     border: 1px solid var(--line);
-    box-shadow: 0 0 80px rgba(201, 169, 97, .12);
+    box-shadow: 0 0 80px rgba(200, 150, 10, .12);
     animation: lbIn .4s var(--ease);
 }
 
@@ -2880,7 +2870,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     width: 52px;
     height: 52px;
     border: 1px solid var(--line);
-    background: rgba(10, 9, 8, 0.62);
+    background: rgba(0, 27, 58, 0.62);
     color: var(--tx-head);
     font-size: 1.6rem;
     cursor: pointer;
@@ -2968,7 +2958,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     inset: 0;
     z-index: 1000;
     height: 100svh;
-    background: #0A0908;
+    background: #001B3A;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -3071,9 +3061,9 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 @media(max-width:1024px) {
     #nav {
         padding: 24px 32px;
-        background: #100E0C !important;
+        background: #002448 !important;
         backdrop-filter: none;
-        border-bottom: 1px solid rgba(201, 169, 97, 0.16);
+        border-bottom: 1px solid rgba(200, 150, 10, 0.16);
     }
 
     .nav-links {
@@ -3116,8 +3106,8 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     }
 
     .logo-circle {
-        border: 1px solid rgba(201, 169, 97, 0.26) !important;
-        background: rgba(245, 241, 234, 0.06) !important;
+        border: 1px solid rgba(200, 150, 10, 0.26) !important;
+        background: rgba(248, 245, 238, 0.06) !important;
     }
 
     .home-strip {
