@@ -1,36 +1,48 @@
 /* ══════════════════════════════════════════════════
-   ARC Xtudios — Agency Upgrade
-   Palette: Deep Maroon × Imperial Gold × Warm Ivory
-   Primary: #130000
+   ARC Xtudios — Creative Production Agency
+   Palette: Obsidian × Electric Amber × Platinum
+   Primary: #080808
 ══════════════════════════════════════════════════ */
 
 /* ── DESIGN TOKENS ─────────────────────────────── */
 :root {
 
-    /* ── BACKGROUND FAMILY (deep maroon) ── */
-    --bg-base: #130000;
-    --bg-raise: #1C0404;
-    --bg-card: #250808;
-    --bg-hover: #2E0D0D;
+    /* ── BACKGROUND FAMILY (obsidian) ── */
+    --bg-base: #080808;
+    /* pure obsidian body          */
+    --bg-raise: #0D0D0D;
+    /* sections, alternate bg      */
+    --bg-card: #131313;
+    /* cards, panels               */
+    --bg-hover: #1C1C1C;
+    /* hover / active surfaces     */
 
-    /* ── TEXT FAMILY (warm ivory) ── */
-    --tx-head: #F2EAE0;
-    --tx-body: #D4C5B5;
-    --tx-muted: #9A8575;
-    --tx-faint: #5E4A3C;
+    /* ── TEXT FAMILY (platinum) ── */
+    --tx-head: #ECEAE4;
+    /* headings — cool platinum    */
+    --tx-body: #9E9B95;
+    /* body / paragraph text       */
+    --tx-muted: #5A5752;
+    /* secondary / sub-labels      */
+    --tx-faint: #2A2825;
+    /* captions, disabled          */
 
-    /* ── GOLD ACCENT FAMILY ── */
-    --gold: #C9A96E;
-    --gold-bright: #E2C88A;
+    /* ── AMBER ACCENT FAMILY ── */
+    --gold: #C8860A;
+    /* electric amber — primary    */
+    --gold-bright: #ECA820;
+    /* molten saffron — hover/em   */
 
     /* ── BORDER / LINE ── */
-    --line: rgba(201, 169, 110, 0.16);
-    --line-soft: rgba(255, 255, 255, 0.06);
+    --line: rgba(200, 134, 10, 0.14);
+    /* amber-tinted border  */
+    --line-soft: rgba(255, 255, 255, 0.05);
+    /* subtle white rule    */
 
-    /* ── OVERLAY (tinted over images) ── */
-    --ov-deep: rgba(19, 0, 0, 0.88);
-    --ov-mid: rgba(19, 0, 0, 0.55);
-    --ov-light: rgba(19, 0, 0, 0.28);
+    /* ── OVERLAY (pure obsidian) ── */
+    --ov-deep: rgba(8, 8, 8, 0.92);
+    --ov-mid: rgba(8, 8, 8, 0.60);
+    --ov-light: rgba(8, 8, 8, 0.28);
 
     /* ── EASING ── */
     --ease: cubic-bezier(.76, 0, .24, 1);
@@ -96,7 +108,7 @@ button,
     display: flex;
     align-items: center;
     justify-content: space-between;
-    background: rgba(19, 0, 0, 0.92);
+    background: rgba(8, 8, 8, 0.92);
     backdrop-filter: blur(20px);
     border-bottom: 1px solid var(--line);
     transition: transform 0.7s cubic-bezier(0.22, 1, 0.36, 1),
@@ -123,7 +135,7 @@ button,
     transform: translateY(0);
     opacity: 1;
     backdrop-filter: blur(14px);
-    background: rgba(19, 0, 0, 0.6);
+    background: rgba(8, 8, 8, 0.60);
 }
 
 .nav-brand span {
@@ -226,7 +238,7 @@ button,
 }
 
 .nav-brand:hover .logo-circle {
-    box-shadow: 0 0 0 4px rgba(201, 169, 110, .18);
+    box-shadow: 0 0 0 4px rgba(200, 134, 10, .15);
 }
 
 .brand-name {
@@ -339,8 +351,8 @@ button,
     position: absolute;
     inset: 0;
     background:
-        linear-gradient(to top, var(--ov-deep) 0%, rgba(19, 0, 0, .32) 40%, var(--ov-light) 100%),
-        linear-gradient(to right, rgba(19, 0, 0, .6) 0%, transparent 55%);
+        linear-gradient(to top, var(--ov-deep) 0%, rgba(8, 8, 8, .32) 40%, var(--ov-light) 100%),
+        linear-gradient(to right, rgba(8, 8, 8, .60) 0%, transparent 55%);
 }
 
 .hero-content {
@@ -425,13 +437,13 @@ button,
 .btn-hero-fill:hover {
     background: var(--gold-bright);
     transform: translateY(-2px);
-    box-shadow: 0 8px 28px rgba(201, 169, 110, .28);
+    box-shadow: 0 8px 28px rgba(200, 134, 10, .22);
 }
 
 .btn-hero-ghost {
     padding: 13px 32px;
     background: transparent;
-    border: 1px solid rgba(201, 169, 110, .35);
+    border: 1px solid rgba(200, 134, 10, .28);
     color: var(--tx-head);
     font-size: .65rem;
     letter-spacing: .2em;
@@ -446,7 +458,7 @@ button,
 .btn-hero-ghost:hover {
     border-color: var(--gold);
     color: var(--gold);
-    background: rgba(201, 169, 110, .06);
+    background: rgba(200, 134, 10, .06);
 }
 
 /* dots */
@@ -463,7 +475,7 @@ button,
 .hdot {
     width: 24px;
     height: 1px;
-    background: rgba(201, 169, 110, .25);
+    background: rgba(200, 134, 10, .20);
     transition: all .4s;
     cursor: pointer;
     border: none;
@@ -707,7 +719,7 @@ button,
     text-transform: uppercase;
     color: var(--gold);
     text-decoration: none;
-    border-bottom: 1px solid rgba(201, 169, 110, .4);
+    border-bottom: 1px solid rgba(200, 134, 10, .34);
     padding-bottom: 3px;
     font-weight: 400;
     background: none;
@@ -804,7 +816,7 @@ button,
 .hsp-card-num {
     font-family: 'Cormorant Garamond', serif;
     font-size: .82rem;
-    color: rgba(201, 169, 110, .3);
+    color: rgba(200, 134, 10, .24);
     padding: 18px 22px 0;
     font-weight: 300;
     letter-spacing: .1em;
@@ -812,7 +824,7 @@ button,
 }
 
 .hsp-card:hover .hsp-card-num {
-    color: rgba(201, 169, 110, .6);
+    color: rgba(200, 134, 10, .52);
 }
 
 .hsp-card-img {
@@ -922,7 +934,7 @@ button,
     font-family: 'Cormorant Garamond', serif;
     font-size: 2.6rem;
     font-weight: 300;
-    color: rgba(201, 169, 110, .2);
+    color: rgba(200, 134, 10, .16);
     line-height: 1;
     margin-bottom: 18px;
 }
@@ -1011,20 +1023,20 @@ button,
     margin-top: 20px;
     font-size: 1rem;
     letter-spacing: 2px;
-    color: #c9a96e;
+    color: #C8860A;
 }
 
 .review-text {
     font-family: 'Cormorant Garamond', serif;
     font-size: 1.6rem;
     line-height: 1.8;
-    color: #F5F0E8;
+    color: #ECEAE4;
 }
 
 .review-author {
     margin-top: 20px;
     font-size: 0.9rem;
-    color: #D4AF6E;
+    color: #C8860A;
 }
 
 .review-dots {
@@ -1040,7 +1052,7 @@ button,
 .rdot {
     width: 24px;
     height: 1px;
-    background: rgba(201, 169, 110, .25);
+    background: rgba(200, 134, 10, .20);
     transition: all .4s;
     cursor: pointer;
     border: none;
@@ -1244,7 +1256,7 @@ button,
     font-size: 1.6rem;
     opacity: 0;
     transition: opacity .3s;
-    background: rgba(19, 0, 0, .42);
+    background: rgba(8, 8, 8, .42);
 }
 
 .insta-cell:hover .insta-hover {
@@ -1254,7 +1266,7 @@ button,
 .insta-link {
     color: var(--gold);
     text-decoration: none;
-    border-bottom: 1px solid rgba(201, 169, 110, 0.4);
+    border-bottom: 1px solid rgba(200, 134, 10, 0.34);
     padding-bottom: 1px;
     transition: color .3s, border-color .3s;
     font-style: italic;
@@ -1325,7 +1337,7 @@ button,
      SITE FOOTER
   ══════════════════════════════════════════════════ */
 .site-footer {
-    background: #0D0000;
+    background: #060606;
     border-top: 1px solid var(--line);
     color: var(--tx-muted);
     font-family: 'Jost', sans-serif;
@@ -1333,32 +1345,32 @@ button,
 }
 
 .site-footer {
-    color: #E8DED2;
+    color: #D0CCC6;
 }
 
 .site-footer h4,
 .site-footer .footer-title {
-    color: #F5F0E8;
+    color: #ECEAE4;
     letter-spacing: 0.08em;
 }
 
 .site-footer p,
 .site-footer li,
 .site-footer a {
-    color: #CDBBAA;
+    color: #8E8B85;
 }
 
 .site-footer a {
-    color: #D4AF6E;
+    color: #C8860A;
     text-decoration: none;
 }
 
 .site-footer a:hover {
-    color: #F0D28A;
+    color: #ECA820;
 }
 
 .site-footer .label {
-    color: #9C8774;
+    color: #585450;
     font-size: 0.7rem;
     letter-spacing: 0.2em;
 }
@@ -1368,7 +1380,7 @@ button,
 }
 
 .site-footer {
-    background: #1A0606;
+    background: #0C0C0C;
 }
 
 .site-footer::before {
@@ -1423,14 +1435,14 @@ button,
     font-size: 1rem;
     font-style: italic;
     font-weight: 300;
-    color: rgba(201, 169, 110, .45);
+    color: rgba(200, 134, 10, .38);
     line-height: 1.6;
     margin-bottom: 18px;
 }
 
 .footer-about-text {
     font-size: .78rem;
-    color: rgba(154, 133, 117, .45);
+    color: rgba(90, 87, 82, .45);
     line-height: 1.9;
     font-weight: 300;
     margin-bottom: 28px;
@@ -1449,7 +1461,7 @@ button,
     display: flex;
     align-items: center;
     justify-content: center;
-    color: rgba(154, 133, 117, .5);
+    color: rgba(90, 87, 82, .5);
     text-decoration: none;
     transition: all .3s;
     cursor: pointer;
@@ -1458,7 +1470,7 @@ button,
 .fsoc:hover {
     border-color: var(--gold);
     color: var(--gold);
-    background: rgba(201, 169, 110, .07);
+    background: rgba(200, 134, 10, .07);
 }
 
 .fsoc svg {
@@ -1470,7 +1482,7 @@ button,
     font-size: .58rem;
     letter-spacing: .3em;
     text-transform: uppercase;
-    color: rgba(201, 169, 110, .35);
+    color: rgba(200, 134, 10, .28);
     font-weight: 400;
     margin-bottom: 22px;
     padding-bottom: 12px;
@@ -1487,7 +1499,7 @@ button,
 
 .footer-nav-col ul a {
     font-size: .82rem;
-    color: rgba(230, 210, 190, 0.85);
+    color: rgba(200, 198, 194, 0.85);
     text-decoration: none;
     transition: color .3s;
     font-weight: 300;
@@ -1506,19 +1518,19 @@ button,
     font-size: .56rem;
     letter-spacing: .26em;
     text-transform: uppercase;
-    color: rgba(201, 169, 110, 0.65);
+    color: rgba(200, 134, 10, 0.58);
     display: block;
     margin-bottom: 3px;
 }
 
 .fci-val {
     font-size: .82rem;
-    color: rgba(240, 220, 200, 0.9);
+    color: rgba(210, 208, 204, 0.9);
     font-weight: 300;
 }
 
 .fci-link {
-    color: rgba(240, 220, 200, 0.9);
+    color: rgba(210, 208, 204, 0.9);
     text-decoration: none;
     transition: color .3s;
 }
@@ -1560,7 +1572,7 @@ button,
 
 .footer-copy {
     font-size: .66rem;
-    color: rgba(200, 180, 160, 0.7);
+    color: rgba(170, 168, 165, 0.7);
     letter-spacing: .1em;
     font-weight: 300;
 }
@@ -1574,19 +1586,19 @@ button,
     font-size: .62rem;
     letter-spacing: .14em;
     text-transform: uppercase;
-    color: rgba(200, 180, 160, 0.75);
+    color: rgba(170, 168, 165, 0.75);
     text-decoration: none;
     transition: color .3s;
     cursor: pointer;
 }
 
 .footer-bottom-links a:hover {
-    color: rgba(154, 133, 117, .7);
+    color: rgba(90, 87, 82, .7);
 }
 
 .footer-made {
     font-size: .62rem;
-    color: rgba(200, 180, 160, 0.6);
+    color: rgba(170, 168, 165, 0.6);
     letter-spacing: .1em;
 }
 
@@ -2031,13 +2043,13 @@ button,
 .svc-n {
     font-size: 1.9rem;
     font-weight: 300;
-    color: rgba(201, 169, 110, .18);
+    color: rgba(200, 134, 10, .15);
     line-height: 1;
     transition: color .35s;
 }
 
 .svc-row:hover .svc-n {
-    color: rgba(201, 169, 110, .5);
+    color: rgba(200, 134, 10, .45);
 }
 
 .svc-title {
@@ -2176,7 +2188,7 @@ button,
 }
 
 .tfeat:hover {
-    border-color: rgba(201, 169, 110, .35);
+    border-color: rgba(200, 134, 10, .28);
 }
 
 .tfeat::before {
@@ -2261,7 +2273,7 @@ button,
 }
 
 .tsec:hover {
-    border-color: rgba(201, 169, 110, .28);
+    border-color: rgba(200, 134, 10, .22);
 }
 
 .tsec-stars {
@@ -2438,7 +2450,7 @@ button,
     border-radius: 50%;
     flex-shrink: 0;
     margin-top: 7px;
-    box-shadow: 0 0 8px rgba(201, 169, 110, .4);
+    box-shadow: 0 0 8px rgba(200, 134, 10, .34);
 }
 
 .cinfo-lbl {
@@ -2477,7 +2489,7 @@ button,
 .csoc:hover {
     border-color: var(--gold);
     color: var(--gold);
-    background: rgba(201, 169, 110, .07);
+    background: rgba(200, 134, 10, .07);
 }
 
 .contact-foot {
@@ -2526,7 +2538,7 @@ button,
     width: 100%;
     background: transparent;
     border: none;
-    border-bottom: 1px solid rgba(201, 169, 110, .2);
+    border-bottom: 1px solid rgba(200, 134, 10, .16);
     color: var(--tx-head);
     padding: 10px 0;
     font-family: 'Jost', sans-serif;
@@ -2618,7 +2630,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 .btn-submit:hover {
     background: var(--gold-bright);
     transform: translateY(-2px);
-    box-shadow: 0 8px 24px rgba(201, 169, 110, .25);
+    box-shadow: 0 8px 24px rgba(200, 134, 10, .20);
 }
 
 .btn-wa-sm {
@@ -2806,7 +2818,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     max-height: 86vh;
     object-fit: contain;
     border: 1px solid var(--line);
-    box-shadow: 0 0 80px rgba(201, 169, 110, .1);
+    box-shadow: 0 0 80px rgba(200, 134, 10, .10);
     animation: lbIn .4s var(--ease);
 }
 
@@ -2830,7 +2842,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     width: 52px;
     height: 52px;
     border: 1px solid var(--line);
-    background: rgba(19, 0, 0, 0.6);
+    background: rgba(8, 8, 8, 0.60);
     color: var(--tx-head);
     font-size: 1.6rem;
     cursor: pointer;
@@ -2918,7 +2930,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     inset: 0;
     z-index: 1000;
     height: 100svh;
-    background: #170000;
+    background: #080808;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -3020,9 +3032,9 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 @media(max-width:1024px) {
     #nav {
         padding: 24px 32px;
-        background: #190202 !important;
+        background: #0C0C0C !important;
         backdrop-filter: none;
-        border-bottom: 1px solid rgba(201, 169, 110, 0.28);
+        border-bottom: 1px solid rgba(200, 134, 10, 0.22);
     }
 
     .nav-links {
@@ -3065,7 +3077,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     }
 
     .logo-circle {
-        border: 1px solid rgba(201, 169, 110, 0.35) !important;
+        border: 1px solid rgba(200, 134, 10, 0.28) !important;
         background: rgba(255, 255, 255, 0.06) !important;
     }
 
@@ -3385,4 +3397,110 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     .home-hero {
         height: 100svh;
     }
+}
+
+/* ══════════════════════════════════════════════════
+   PALETTE UPGRADE — OBSIDIAN × ELECTRIC AMBER
+   Premium enhancements for Creative Agency identity
+══════════════════════════════════════════════════ */
+
+/* ── Amber glow on interactive elements ── */
+.btn-hero-fill:hover {
+    box-shadow: 0 0 28px rgba(200, 134, 10, .35), 0 8px 24px rgba(0, 0, 0, .6);
+}
+
+.nav-cta:hover {
+    box-shadow: 0 0 18px rgba(200, 134, 10, .22);
+}
+
+/* ── Subtle noise/grain texture overlay on hero ── */
+.home-hero::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    opacity: .06;
+    pointer-events: none;
+    z-index: 1;
+    mix-blend-mode: overlay;
+}
+
+/* ── Amber accent line on nav (replaces old maroon feel) ── */
+#nav {
+    border-bottom-color: rgba(200, 134, 10, 0.12);
+}
+
+/* ── Elevated card hover on services preview ── */
+.hsp-card:hover {
+    box-shadow: 0 24px 64px rgba(0, 0, 0, .7), 0 0 0 1px rgba(200, 134, 10, .14);
+}
+
+/* ── Portfolio filter active — amber fill ── */
+.cat-btn.on {
+    background: var(--gold);
+    color: #080808;
+    border-color: var(--gold);
+    box-shadow: 0 4px 18px rgba(200, 134, 10, .30);
+}
+
+/* ── Stat strip numbers — more electric ── */
+.strip-n {
+    background: linear-gradient(135deg, var(--gold-bright), var(--gold));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+/* ── Gallery corner brackets — amber ── */
+.gcell::before,
+.gcell::after {
+    border-color: var(--gold-bright);
+}
+
+/* ── Review text — platinum white upgrade ── */
+.review-text {
+    color: var(--tx-head);
+}
+
+/* ── Eyebrow lines — electric amber ── */
+.sec-eyebrow {
+    position: relative;
+}
+
+/* ── Active nav underline — brighter amber ── */
+.nav-links a.active::after,
+.nav-links a:hover::after {
+    background: var(--gold-bright);
+}
+
+/* ── Hero veil — richer obsidian gradient ── */
+.hero-veil {
+    background:
+        linear-gradient(to top, rgba(8, 8, 8, 0.95) 0%, rgba(8, 8, 8, .25) 42%, rgba(8, 8, 8, .10) 100%),
+        linear-gradient(to right, rgba(8, 8, 8, .70) 0%, transparent 60%);
+}
+
+/* ── CTA band — electric top bar ── */
+.home-cta-band::before,
+.home-strip::before {
+    background: linear-gradient(90deg, transparent, var(--gold), var(--gold-bright), var(--gold), transparent);
+    opacity: .7;
+}
+
+/* ── Scrollbar — amber on obsidian ── */
+::-webkit-scrollbar-thumb {
+    background: var(--gold);
+    border-radius: 2px;
+}
+
+/* ── Float WhatsApp button ── */
+#fwa {
+    background: #25D366;
+    box-shadow: 0 4px 18px rgba(0, 0, 0, .5);
+}
+
+/* ── Mobile menu — obsidian bg ── */
+.mob-menu {
+    background: #0C0C0C;
+    border-right: 1px solid rgba(200, 134, 10, 0.14);
 }
