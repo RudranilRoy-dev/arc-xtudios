@@ -1,13 +1,125 @@
 document.addEventListener("DOMContentLoaded", () => {
 
     /* ═══════════════════════════════
+       GALLERY DATA & METADATA
+    ═══════════════════════════════ */
+    
+    // Gallery metadata for lightbox info
+    const galleryMetadata = {};
+
+    /* ═══════════════════════════════
+       AUTO GALLERY FROM JSON
+    ═══════════════════════════════ */
+    
+    async function loadGalleryFromJSON() {
+        try {
+            const res = await fetch("images.json");
+            const images = await res.json();
+
+            // Store metadata for lightbox
+            images.forEach(img => {
+                const key = `Images/${img.src}`;
+                galleryMetadata[key] = {
+                    category: formatCategoryName(img.category),
+                    title: img.title || 'Untitled',
+                    client: img.client || '',
+                    description: img.description || 'Professional photography and visual storytelling.'
+                };
+            });
+
+            function shuffle(array) {
+                for (let i = array.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [array[i], array[j]] = [array[j], array[i]];
+                }
+            }
+
+            const savedOrder = localStorage.getItem("galleryOrder");
+
+            if (savedOrder) {
+                const order = JSON.parse(savedOrder);
+                images.sort((a, b) => order.indexOf(a.src) - order.indexOf(b.src));
+            } else {
+                shuffle(images);
+                const order = images.map(img => img.src);
+                localStorage.setItem("galleryOrder", JSON.stringify(order));
+            }
+
+            const gallery = document.querySelector(".gallery");
+            if (!gallery) return;
+            
+            gallery.innerHTML = "";
+
+            images.forEach(img => {
+                const div = document.createElement("div");
+                div.className = "gcell";
+                div.setAttribute("data-c", img.category);
+
+                if (img.project) {
+                    div.setAttribute("data-project", img.project);
+                }
+
+                div.innerHTML = `
+                    <img src="Images/${img.src}" loading="lazy" alt="${img.title || ''}">
+                    ${img.client ? `
+                        <div class="gcell-over">
+                            <div class="gcell-project-info">
+                                <div class="gcell-client">${img.client}</div>
+                                <div class="gcell-title">${img.title}</div>
+                            </div>
+                        </div>
+                    ` : ''}
+                `;
+
+                div.onclick = () => {
+                    if (img.project) {
+                        openCase(img.project);
+                    } else {
+                        openLb(div);
+                    }
+                };
+
+                gallery.appendChild(div);
+            });
+
+            // Initialize filters after gallery is built
+            setTimeout(() => {
+                initPortfolioFilters();
+            }, 100);
+
+        } catch (error) {
+            console.error("Error loading gallery:", error);
+        }
+    }
+
+    function formatCategoryName(category) {
+        const names = {
+            'commercial': 'Commercial',
+            'fashion': 'Fashion',
+            'real-state': 'Real Estate',
+            'brand-content': 'Brand Content',
+            'weddings-events': 'Weddings & Events',
+            'portraits': 'Portraits',
+            'creative': 'Creative'
+        };
+        return names[category] || category;
+    }
+
+    function getGalleryItems() {
+        return Array.from(document.querySelectorAll('.gcell'));
+    }
+
+    /* ═══════════════════════════════
        HERO SLIDESHOW
     ═══════════════════════════════ */
+    
     let slide = 0;
     const imgs = document.querySelectorAll('.hero-img');
     const dots = document.querySelectorAll('.hdot');
 
     window.setSlide = function (n) {
+        if (!imgs.length) return;
+        
         imgs[slide].classList.remove('show');
         dots[slide].classList.remove('on');
         slide = n;
@@ -53,6 +165,13 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         cur = page;
+
+        // Initialize portfolio when navigating to it
+        if (page === 'portfolio') {
+            setTimeout(() => {
+                updateVisibleGalleryItems();
+            }, 300);
+        }
     };
 
     window.addEventListener("popstate", (e) => {
@@ -63,39 +182,78 @@ document.addEventListener("DOMContentLoaded", () => {
     const initialPage = location.hash.replace("#", "") || "home";
     go(initialPage, false);
 
-    document.getElementById('nav').classList.add('on-dark');
+    document.getElementById('nav')?.classList.add('on-dark');
+
+    /* ═══════════════════════════════
+       NAVBAR SCROLL BEHAVIOR
+    ═══════════════════════════════ */
+    
+    let lastScrollY = window.scrollY;
+    let ticking = false;
+
+    window.addEventListener('scroll', () => {
+        if (!ticking) {
+            window.requestAnimationFrame(() => {
+                const nav = document.getElementById('nav');
+                const currentScrollY = window.scrollY;
+                
+                if (currentScrollY > 100) {
+                    nav.classList.add('show');
+                    nav.style.boxShadow = `
+                        0 12px 48px rgba(0, 0, 0, 0.6),
+                        0 4px 12px rgba(255, 122, 0, 0.15)
+                    `;
+                } else {
+                    nav.classList.remove('show');
+                    nav.style.boxShadow = `
+                        0 8px 32px rgba(0, 0, 0, 0.4),
+                        0 2px 8px rgba(255, 122, 0, 0.08)
+                    `;
+                }
+                
+                lastScrollY = currentScrollY;
+                ticking = false;
+            });
+            ticking = true;
+        }
+    });
 
     /* ═══════════════════════════════
        CASE STUDY NAVIGATION
     ═══════════════════════════════ */
+    
     window.openCase = async function (projectId) {
-        const res = await fetch("projects.json");
-        const projects = await res.json();
-        const project = projects[projectId];
+        try {
+            const res = await fetch("projects.json");
+            const projects = await res.json();
+            const project = projects[projectId];
 
-        if (!project) {
-            console.error("Project not found:", projectId);
-            return;
+            if (!project) {
+                console.error("Project not found:", projectId);
+                return;
+            }
+
+            document.getElementById('caseClient').textContent = project.client;
+            document.getElementById('caseTitle').textContent = project.title;
+            document.getElementById('caseClientFull').textContent = project.client;
+            document.getElementById('caseService').textContent = project.service;
+            document.getElementById('caseYear').textContent = project.year;
+            document.getElementById('caseProblem').textContent = project.problem;
+            document.getElementById('caseApproach').textContent = project.approach;
+            document.getElementById('caseResult').textContent = project.result;
+
+            document.querySelector('.case-hero-bg').style.backgroundImage =
+                `url('Images/${project.heroImage}')`;
+
+            const gallery = document.getElementById('caseGallery');
+            gallery.innerHTML = project.images.map(img =>
+                `<img src="Images/${img}" onclick="openLbFromCase(this)" loading="lazy">`
+            ).join('');
+
+            go('case');
+        } catch (error) {
+            console.error("Error loading case study:", error);
         }
-
-        document.getElementById('caseClient').textContent = project.client;
-        document.getElementById('caseTitle').textContent = project.title;
-        document.getElementById('caseClientFull').textContent = project.client;
-        document.getElementById('caseService').textContent = project.service;
-        document.getElementById('caseYear').textContent = project.year;
-        document.getElementById('caseProblem').textContent = project.problem;
-        document.getElementById('caseApproach').textContent = project.approach;
-        document.getElementById('caseResult').textContent = project.result;
-
-        document.querySelector('.case-hero-bg').style.backgroundImage =
-            `url('Images/${project.heroImage}')`;
-
-        const gallery = document.getElementById('caseGallery');
-        gallery.innerHTML = project.images.map(img =>
-            `<img src="Images/${img}" onclick="openLbFromCase(this)" loading="lazy">`
-        ).join('');
-
-        go('case');
     };
 
     window.openLbFromCase = function (imgElement) {
@@ -107,6 +265,7 @@ document.addEventListener("DOMContentLoaded", () => {
     /* ═══════════════════════════════
        MOBILE MENU
     ═══════════════════════════════ */
+    
     window.toggleMenu = function () {
         const menu = document.getElementById('mobMenu');
         const ham = document.getElementById('ham');
@@ -115,8 +274,8 @@ document.addEventListener("DOMContentLoaded", () => {
     };
 
     window.closeMob = function () {
-        document.getElementById('mobMenu').classList.remove('open');
-        document.getElementById('ham').classList.remove('active');
+        document.getElementById('mobMenu')?.classList.remove('open');
+        document.getElementById('ham')?.classList.remove('active');
     };
 
     window.addEventListener('orientationchange', () => {
@@ -126,8 +285,8 @@ document.addEventListener("DOMContentLoaded", () => {
     /* ═══════════════════════════════
        STAT COUNTERS
     ═══════════════════════════════ */
+    
     setTimeout(() => {
-
         document.querySelectorAll('.strip-n').forEach(el => {
             const target = +el.dataset.t;
             const format = el.dataset.format;
@@ -155,177 +314,152 @@ document.addEventListener("DOMContentLoaded", () => {
 
             requestAnimationFrame(tick);
         });
-
     }, 500);
 
     /* ═══════════════════════════════
-   GALLERY + METADATA (UPGRADED)
-═══════════════════════════════ */
+       ENHANCED PORTFOLIO FILTERING
+    ═══════════════════════════════ */
 
-    const galleryMetadata = {};
     let activeFilter = 'all';
     let visibleGalleryItems = [];
     let currentGalleryIndex = 0;
 
-    async function loadGallery() {
-        const res = await fetch("images.json");
-        const images = await res.json();
-
-        const gallery = document.querySelector(".gallery");
-        if (!gallery) return;
-
-        gallery.innerHTML = "";
-
-        images.forEach(img => {
-
-            const src = `Images/${img.src}`;
-
-            // STORE METADATA
-            galleryMetadata[src] = {
-                category: formatCategory(img.category),
-                title: img.title || "Untitled",
-                description: img.description || "Creative production by ARC Xtudios."
-            };
-
-            const div = document.createElement("div");
-            div.className = "gcell";
-            div.dataset.c = img.category;
-
-            div.innerHTML = `
-            <img src="${src}" alt="${img.title || ''}" loading="lazy">
-        `;
-
-            div.onclick = () => openLightbox(div);
-
-            gallery.appendChild(div);
+    function updateVisibleGalleryItems() {
+        visibleGalleryItems = getGalleryItems().filter(item => {
+            return activeFilter === 'all' || item.dataset.c === activeFilter;
         });
-
-        updateVisibleItems();
     }
 
-    function formatCategory(c) {
-        const map = {
-            "weddings-events": "Weddings & Events",
-            "portraits": "Portraits",
-            "creative": "Creative",
-            "commercial": "Commercial",
-            "fashion": "Fashion",
-            "brand-content": "Brand Content"
-        };
-        return map[c] || c;
-    }
+    function initPortfolioFilters() {
+        const filterBtns = document.querySelectorAll('.cat-btn');
+        
+        if (!filterBtns.length) return;
 
-    /* ═══════════════════════════════
-       FILTER (SMOOTH)
-    ═══════════════════════════════ */
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', function () {
+                // Update active button
+                filterBtns.forEach(b => b.classList.remove('on'));
+                this.classList.add('on');
 
-    function initFilters() {
-        document.querySelectorAll(".cat-btn").forEach(btn => {
+                activeFilter = this.dataset.f;
 
-            btn.addEventListener("click", () => {
+                // Get all cells
+                const cells = getGalleryItems();
 
-                document.querySelectorAll(".cat-btn").forEach(b => b.classList.remove("on"));
-                btn.classList.add("on");
-
-                activeFilter = btn.dataset.f;
-
-                const items = document.querySelectorAll(".gcell");
-
-                items.forEach(el => {
-                    el.style.opacity = "0";
-                    el.style.transform = "scale(0.95)";
+                // Fade out all
+                cells.forEach(cell => {
+                    cell.style.transition = 'opacity 0.3s, transform 0.3s';
+                    cell.style.opacity = '0';
+                    cell.style.transform = 'scale(0.95)';
                 });
 
+                // Filter and fade in
                 setTimeout(() => {
-                    items.forEach(el => {
-                        const show = activeFilter === "all" || el.dataset.c === activeFilter;
+                    cells.forEach(cell => {
+                        const show = activeFilter === 'all' || cell.dataset.c === activeFilter;
 
                         if (show) {
-                            el.classList.remove("hide");
-                            requestAnimationFrame(() => {
-                                el.style.opacity = "1";
-                                el.style.transform = "scale(1)";
-                            });
+                            cell.classList.remove('hide');
+                            setTimeout(() => {
+                                cell.style.opacity = '1';
+                                cell.style.transform = 'scale(1)';
+                            }, 50);
                         } else {
-                            el.classList.add("hide");
+                            cell.classList.add('hide');
                         }
                     });
 
-                    updateVisibleItems();
-                }, 250);
+                    updateVisibleGalleryItems();
+                }, 300);
             });
         });
-    }
 
-    function updateVisibleItems() {
-        visibleGalleryItems = Array.from(document.querySelectorAll(".gcell"))
-            .filter(el => activeFilter === "all" || el.dataset.c === activeFilter);
+        // Initialize visible items
+        updateVisibleGalleryItems();
     }
 
     /* ═══════════════════════════════
-       LIGHTBOX (WITH DESCRIPTION)
+       ENHANCED LIGHTBOX WITH INFO
     ═══════════════════════════════ */
 
-    function openLightbox(el) {
-        updateVisibleItems();
+    function showLightboxImage(index) {
+        if (!visibleGalleryItems.length) return;
 
-        currentGalleryIndex = visibleGalleryItems.indexOf(el);
-        showImage(currentGalleryIndex);
-
-        document.getElementById("lb").classList.add("open");
-        document.body.style.overflow = "hidden";
-    }
-
-    function showImage(index) {
         currentGalleryIndex = (index + visibleGalleryItems.length) % visibleGalleryItems.length;
+        const activeItem = visibleGalleryItems[currentGalleryIndex];
+        const img = activeItem.querySelector('img');
+        const imgSrc = img.src;
 
-        const el = visibleGalleryItems[currentGalleryIndex];
-        const img = el.querySelector("img");
-        const src = img.src;
+        const lb = document.getElementById('lb');
+        const lbImg = document.getElementById('lbimg');
+        
+        // Fade effect
+        lbImg.style.opacity = '0';
+        
+        setTimeout(() => {
+            lbImg.src = imgSrc;
+            lbImg.alt = img.alt || 'Gallery image';
+            lbImg.style.opacity = '1';
+        }, 100);
 
-        const lb = document.getElementById("lb");
-        const lbImg = document.getElementById("lbimg");
+        // Update info if elements exist
+        const metadata = galleryMetadata[imgSrc];
+        if (metadata) {
+            const lbCategory = lb.querySelector('.lb-category');
+            const lbTitle = lb.querySelector('.lb-title');
+            const lbDescription = lb.querySelector('.lb-description');
 
-        lbImg.src = src;
-
-        const meta = galleryMetadata[src];
-
-        if (meta) {
-            lb.querySelector(".lb-category").textContent = meta.category;
-            lb.querySelector(".lb-title").textContent = meta.title;
-            lb.querySelector(".lb-description").textContent = meta.description;
+            if (lbCategory) lbCategory.textContent = metadata.category;
+            if (lbTitle) lbTitle.textContent = metadata.title;
+            if (lbDescription) lbDescription.textContent = metadata.description;
         }
     }
 
-    window.closeLb = function () {
-        document.getElementById("lb").classList.remove("open");
-        document.body.style.overflow = "";
+    window.openLb = function (el) {
+        updateVisibleGalleryItems();
+
+        const index = visibleGalleryItems.indexOf(el);
+        currentGalleryIndex = index >= 0 ? index : 0;
+
+        showLightboxImage(currentGalleryIndex);
+        
+        const lb = document.getElementById('lb');
+        lb.classList.add('open');
+        document.body.style.overflow = 'hidden';
     };
 
-    window.nextLb = function (e) {
-        if (e) e.stopPropagation();
-        showImage(currentGalleryIndex + 1);
+    window.closeLb = function () {
+        const lb = document.getElementById('lb');
+        lb.classList.remove('open');
+        document.body.style.overflow = '';
     };
 
     window.prevLb = function (e) {
         if (e) e.stopPropagation();
-        showImage(currentGalleryIndex - 1);
+        showLightboxImage(currentGalleryIndex - 1);
     };
 
-    /* KEYBOARD NAV */
-    document.addEventListener("keydown", e => {
-        const open = document.getElementById("lb")?.classList.contains("open");
-        if (!open) return;
+    window.nextLb = function (e) {
+        if (e) e.stopPropagation();
+        showLightboxImage(currentGalleryIndex + 1);
+    };
 
-        if (e.key === "Escape") closeLb();
-        if (e.key === "ArrowRight") nextLb();
-        if (e.key === "ArrowLeft") prevLb();
-    });
+    // Close on background click
+    const lb = document.getElementById('lb');
+    if (lb) {
+        lb.addEventListener('click', e => {
+            if (e.target === lb) closeLb();
+        });
+    }
 
-    /* INIT */
-    document.addEventListener("DOMContentLoaded", () => {
-        loadGallery();
-        setTimeout(initFilters, 300);
+    // Keyboard navigation
+    document.addEventListener('keydown', e => {
+        const isOpen = document.getElementById('lb')?.classList.contains('open');
+        if (!isOpen) return;
+
+        if (e.key === 'Escape') closeLb();
+        if (e.key === 'ArrowLeft') prevLb();
+        if (e.key === 'ArrowRight') nextLb();
     });
 
     /* ═══════════════════════════════
@@ -349,40 +483,51 @@ document.addEventListener("DOMContentLoaded", () => {
 
         let firstInvalid = null;
 
+        // Clear previous errors
         inputs.forEach(input => {
-            input.classList.remove("error");
-            const error = input.parentElement.querySelector(".f-error");
-            error.textContent = "";
-            error.classList.remove("show");
+            if (input) {
+                input.classList.remove("error");
+                const error = input.parentElement.querySelector(".f-error");
+                if (error) {
+                    error.textContent = "";
+                    error.classList.remove("show");
+                }
+            }
         });
 
         if (otherInput) {
             const error = otherInput.parentElement.querySelector(".f-error");
             otherInput.classList.remove("error");
-            error.textContent = "";
-            error.classList.remove("show");
+            if (error) {
+                error.textContent = "";
+                error.classList.remove("show");
+            }
         }
 
         function showError(input, message) {
+            if (!input) return;
             const error = input.parentElement.querySelector(".f-error");
             input.classList.add("error");
-            error.textContent = message;
-            error.classList.add("show");
+            if (error) {
+                error.textContent = message;
+                error.classList.add("show");
+            }
 
             if (!firstInvalid) firstInvalid = input;
         }
 
-        const name = nameInput.value.trim();
-        const phone = phoneInput.value.trim();
-        const email = emailInput.value.trim();
-        const type = typeInput.value;
-        const date = dateInput.value;
-        const message = messageInput.value.trim();
+        const name = nameInput?.value.trim() || '';
+        const phone = phoneInput?.value.trim() || '';
+        const email = emailInput?.value.trim() || '';
+        const type = typeInput?.value || '';
+        const date = dateInput?.value || '';
+        const message = messageInput?.value.trim() || '';
 
+        // Validation
         if (!name) showError(nameInput, "Name is required");
 
         if (!phone) showError(phoneInput, "Phone is required");
-        else if (!/^[0-9]{10}$/.test(phone)) showError(phoneInput, "Enter valid 10-digit number");
+        else if (!/^[0-9]{10}$/.test(phone.replace(/\s/g, ''))) showError(phoneInput, "Enter valid 10-digit number");
 
         if (!email) showError(emailInput, "Email is required");
         else if (!/^\S+@\S+\.\S+$/.test(email)) showError(emailInput, "Invalid email");
@@ -393,9 +538,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
         let finalType = type;
 
-        if (type === "Others") {
+        if (type === "Others" && otherInput) {
             const otherValue = otherInput.value.trim();
-
             if (!otherValue) {
                 showError(otherInput, "Please specify your project");
             } else {
@@ -408,8 +552,9 @@ document.addEventListener("DOMContentLoaded", () => {
             return;
         }
 
+        // Build WhatsApp message
         const text = `Hello, I want to discuss a project.
-    
+
 Name/Brand: ${name}
 Phone: ${phone}
 Email: ${email}
@@ -431,6 +576,7 @@ Project Brief: ${message}`;
         }, 1500);
     };
 
+    // Show/hide "Other" input
     const shootSelect = document.getElementById("shootType");
     const otherWrap = document.getElementById("otherShootWrap");
 
@@ -447,6 +593,7 @@ Project Brief: ${message}`;
     /* ═══════════════════════════════
        REVIEW SLIDER
     ═══════════════════════════════ */
+    
     const reviewSlides = document.querySelectorAll('.review-slide');
     const reviewDots = document.querySelectorAll('.rdot');
     let reviewIndex = 0;
@@ -463,10 +610,126 @@ Project Brief: ${message}`;
         if (reviewDots[reviewIndex]) reviewDots[reviewIndex].classList.add('active');
     }
 
-    window.goReview = function (n) { showReview(n); };
+    window.goReview = function (n) { 
+        showReview(n); 
+    };
 
     if (reviewSlides.length > 1) {
         setInterval(() => showReview(reviewIndex + 1), 5000);
     }
 
+    /* ═══════════════════════════════
+       FADE-IN ANIMATIONS ON SCROLL
+    ═══════════════════════════════ */
+    
+    const observerOptions = {
+        threshold: 0.15,
+        rootMargin: '0px 0px -50px 0px'
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.style.opacity = '1';
+                entry.target.style.transform = 'translateY(0)';
+            }
+        });
+    }, observerOptions);
+
+    // Observe fade-in elements
+    document.querySelectorAll('.fade-in-up').forEach(el => {
+        observer.observe(el);
+    });
+
+    /* ═══════════════════════════════
+       SMOOTH SCROLL FOR FILTER BUTTONS (MOBILE)
+    ═══════════════════════════════ */
+    
+    if (window.innerWidth <= 768) {
+        const portCats = document.querySelector('.port-cats');
+        if (portCats) {
+            portCats.style.overflowX = 'auto';
+            portCats.style.scrollbarWidth = 'thin';
+            portCats.style.WebkitOverflowScrolling = 'touch';
+        }
+    }
+
+    /* ═══════════════════════════════
+       INITIALIZE GALLERY
+    ═══════════════════════════════ */
+    
+    loadGalleryFromJSON();
+
 });
+
+/* ═══════════════════════════════
+   PREVENT ACCIDENTAL RELOADS
+═══════════════════════════════ */
+
+window.addEventListener('beforeunload', function (e) {
+    // Only warn if user has scrolled or interacted
+    const scrolled = window.scrollY > 100;
+    const formFilled = document.querySelector('.f-input:not([value=""]');
+    
+    if (scrolled || formFilled) {
+        e.preventDefault();
+        e.returnValue = '';
+    }
+});
+
+/* ═══════════════════════════════
+   PERFORMANCE: DEBOUNCE SCROLL
+═══════════════════════════════ */
+
+function debounce(func, wait) {
+    let timeout;
+    return function executedFunction(...args) {
+        const later = () => {
+            clearTimeout(timeout);
+            func(...args);
+        };
+        clearTimeout(timeout);
+        timeout = setTimeout(later, wait);
+    };
+}
+
+/* ═══════════════════════════════
+   LAZY LOAD OPTIMIZATION
+═══════════════════════════════ */
+
+if ('IntersectionObserver' in window) {
+    const lazyImages = document.querySelectorAll('img[loading="lazy"]');
+    const imageObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const img = entry.target;
+                if (img.dataset.src) {
+                    img.src = img.dataset.src;
+                    img.removeAttribute('data-src');
+                }
+                imageObserver.unobserve(img);
+            }
+        });
+    });
+
+    lazyImages.forEach(img => imageObserver.observe(img));
+}
+
+/* ═══════════════════════════════
+   CONSOLE SIGNATURE
+═══════════════════════════════ */
+
+console.log(
+    '%c ARC Xtudios — Creative Production Agency ',
+    'background: linear-gradient(135deg, #ff7a00 0%, #ff3d5a 50%, #ff006e 100%); color: #fff; padding: 12px 24px; font-size: 14px; font-weight: bold; border-radius: 4px;'
+);
+
+console.log(
+    '%c Built for Brands. Open to Stories. ',
+    'color: #ff7a00; font-size: 12px; font-style: italic; padding: 8px 0;'
+);
+
+console.log(
+    '%c Precision in production. Creativity in every frame. ',
+    'color: #A8B5C4; font-size: 11px; padding: 4px 0;'
+);
