@@ -2,7 +2,7 @@ import os
 import json
 
 base_dir = "Images"
-categories = ["Commercial", "Music-Videos", "Fashion", "Brand-Content","Wedding","Pre-Wedding"]
+categories = [ "Brand-Content", "Commercial", "Creatives", "Fashion", "Portraits","Real-Estate","Weddings-Events"]
 
 result = []
 
