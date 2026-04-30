@@ -141,6 +141,16 @@
     box-sizing: border-box;
 }
 
+/* GLOBAL FIX — MOBILE OVERFLOW */
+html, body {
+    height: auto;
+}
+
+body {
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
 html {
     font-size: 18px;
 }
@@ -152,8 +162,6 @@ body {
     font-weight: 300;
     overflow-x: hidden;
     overflow-y: auto;
-    height: 100svh;
-    cursor: default;
 }
 
 a,
@@ -394,23 +402,27 @@ button,
      PAGE SYSTEM
   ══════════════════════════════════════════════════ */
 #stage {
-    position: fixed;
-    inset: 0;
+    position: relative;
+    width: 100%;
+    min-height: 100vh;
 }
 
 .pg {
-    position: absolute;
+    position: relative;
+    width: 100%;
+    min-height: 100vh;
     inset: 0;
     opacity: 0;
     pointer-events: none;
     overflow-y: auto;
     overflow-x: hidden;
-    transition: opacity .7s var(--ease);
+    transition: opacity .6s var(--ease);
 }
 
 .pg.active {
     opacity: 1;
     pointer-events: all;
+    z-index:2;
 }
 
 /* ══════════════════════════════════════════════════
@@ -431,7 +443,7 @@ button,
 
 /* ── Hero ── */
 .home-hero {
-    height: 100svh;
+    min-height: 100vh;
     position: relative;
     overflow: hidden;
     display: flex;
