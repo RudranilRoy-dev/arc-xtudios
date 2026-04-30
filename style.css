@@ -141,16 +141,6 @@
     box-sizing: border-box;
 }
 
-/* GLOBAL FIX — MOBILE OVERFLOW */
-html, body {
-    height: auto;
-}
-
-body {
-    overflow-x: hidden;
-    overflow-y: auto;
-}
-
 html {
     font-size: 18px;
 }
@@ -162,6 +152,8 @@ body {
     font-weight: 300;
     overflow-x: hidden;
     overflow-y: auto;
+    height: 100svh;
+    cursor: default;
 }
 
 a,
@@ -399,30 +391,58 @@ button,
 }
 
 /* ══════════════════════════════════════════════════
-     PAGE SYSTEM
+     PAGE SYSTEM - FIXED FOR MOBILE
   ══════════════════════════════════════════════════ */
-#stage {
+  #stage {
     position: relative;
     width: 100%;
     min-height: 100vh;
 }
 
 .pg {
-    position: relative;
+    position: absolute;
+    top: 0;
+    left: 0;
     width: 100%;
     min-height: 100vh;
-    inset: 0;
+    
+    /* Hidden by default */
+    display: none;
     opacity: 0;
+    
+    /* Transition */
+    transition: opacity 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+    
+    /* Prevent interaction when hidden */
     pointer-events: none;
-    overflow-y: auto;
-    overflow-x: hidden;
-    transition: opacity .6s var(--ease);
+    
+    /* GPU acceleration */
+    will-change: opacity;
+    transform: translateZ(0);
 }
 
 .pg.active {
+    display: block;
     opacity: 1;
     pointer-events: all;
-    z-index:2;
+    position: relative; /* Key: allows normal document flow */
+    z-index: 10;
+}
+
+.pg.exiting {
+    display: block;
+    opacity: 0;
+    pointer-events: none;
+    position: absolute; /* Keep positioned during exit */
+    z-index: 5;
+}
+
+/* Restore body scroll */
+body {
+    overflow-x: hidden;
+    overflow-y: auto; /* RESTORED */
+    position: relative;
+    height: auto; /* Allow natural height */
 }
 
 /* ══════════════════════════════════════════════════
@@ -443,7 +463,7 @@ button,
 
 /* ── Hero ── */
 .home-hero {
-    min-height: 100vh;
+    height: 100svh;
     position: relative;
     overflow: hidden;
     display: flex;
@@ -4245,6 +4265,41 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 }
 
 @media(max-width:1024px) {
+
+    /* Mobile-specific fixes */
+    #stage {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        overflow: hidden;
+    }
+
+    body {
+        -webkit-overflow-scrolling: touch;
+    }
+    
+    .pg {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        height: 100%;
+        
+        /* Enhanced iOS scroll */
+        -webkit-overflow-scrolling: touch;
+        overscroll-behavior: contain;
+    }
+    
+    .pg.active {
+        z-index: 100;
+    }
+    
+    .pg.exiting {
+        z-index: 50;
+    }
     #nav {
         padding: 24px 32px;
         background: rgba(24, 24, 24, 0.95) !important;

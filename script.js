@@ -3,14 +3,14 @@ document.addEventListener("DOMContentLoaded", () => {
     /* ═══════════════════════════════
        GALLERY DATA & METADATA
     ═══════════════════════════════ */
-    
+
     // Gallery metadata for lightbox info
     const galleryMetadata = {};
 
     /* ═══════════════════════════════
        AUTO GALLERY FROM JSON
     ═══════════════════════════════ */
-    
+
     async function loadGalleryFromJSON() {
         try {
             const res = await fetch("images.json");
@@ -47,7 +47,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
             const gallery = document.querySelector(".gallery");
             if (!gallery) return;
-            
+
             gallery.innerHTML = "";
 
             images.forEach(img => {
@@ -112,14 +112,14 @@ document.addEventListener("DOMContentLoaded", () => {
     /* ═══════════════════════════════
        HERO SLIDESHOW
     ═══════════════════════════════ */
-    
+
     let slide = 0;
     const imgs = document.querySelectorAll('.hero-img');
     const dots = document.querySelectorAll('.hdot');
 
     window.setSlide = function (n) {
         if (!imgs.length) return;
-        
+
         imgs[slide].classList.remove('show');
         dots[slide].classList.remove('on');
         slide = n;
@@ -134,37 +134,75 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     /* ═══════════════════════════════
-       NAVIGATION (WITH BACK BUTTON FIX)
+       NAVIGATION - FIXED FOR MOBILE
     ═══════════════════════════════ */
 
     let cur = 'home';
+    let isTransitioning = false;
 
     window.go = function (page, addToHistory = true) {
-        if (page === cur) return;
+        // Prevent rapid navigation
+        if (isTransitioning || page === cur) return;
 
+        isTransitioning = true;
         closeLb();
 
-        const prev = document.getElementById('pg-' + cur);
-        if (prev) prev.classList.remove('active');
+        const prevPage = document.getElementById('pg-' + cur);
+        const nextPage = document.getElementById('pg-' + page);
 
-        setTimeout(() => {
-            const next = document.getElementById('pg-' + page);
-            if (!next) return;
-            next.classList.add('active');
-            next.scrollTop = 0;
-        }, 200);
+        if (!nextPage) {
+            isTransitioning = false;
+            return;
+        }
 
+        // Scroll new page to top BEFORE showing
+        nextPage.scrollTop = 0;
+
+        // Handle previous page exit
+        if (prevPage) {
+            prevPage.classList.remove('active');
+            prevPage.classList.add('exiting');
+
+            // Clean up after transition
+            setTimeout(() => {
+                prevPage.classList.remove('exiting');
+                prevPage.style.display = 'none';
+            }, 400);
+        }
+
+        // Show new page
+        nextPage.style.display = 'block';
+
+        // Force reflow
+        nextPage.offsetHeight;
+
+        // Trigger fade-in
+        requestAnimationFrame(() => {
+            nextPage.classList.add('active');
+
+            // Re-enable navigation after transition
+            setTimeout(() => {
+                isTransitioning = false;
+            }, 400);
+        });
+
+        // Update nav active states
         document.querySelectorAll('.nav-links a').forEach(a => {
             a.classList.toggle('active', a.dataset.p === page);
         });
 
         document.getElementById('nav').classList.toggle('on-dark', page === 'home');
 
+        // Update URL
         if (addToHistory) {
-            history.pushState({ page }, "", "#" + page);
+            const url = page === 'home' ? '/' : `/#${page}`;
+            history.pushState({ page }, '', url);
         }
 
         cur = page;
+
+        // Close mobile menu
+        closeMob();
 
         // Initialize portfolio when navigating to it
         if (page === 'portfolio') {
@@ -174,54 +212,78 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     };
 
+    // Handle browser back/forward
     window.addEventListener("popstate", (e) => {
         const page = e.state?.page || location.hash.replace("#", "") || "home";
         go(page, false);
     });
 
+    // Initialize first page
     const initialPage = location.hash.replace("#", "") || "home";
-    go(initialPage, false);
+
+    // Hide all pages first
+    document.querySelectorAll('.pg').forEach(pg => {
+        pg.style.display = 'none';
+        pg.classList.remove('active');
+    });
+
+    // Show initial page without transition
+    const startPage = document.getElementById('pg-' + initialPage);
+    if (startPage) {
+        startPage.style.display = 'block';
+        startPage.classList.add('active');
+        startPage.style.opacity = '1';
+        cur = initialPage;
+    }
 
     document.getElementById('nav')?.classList.add('on-dark');
 
     /* ═══════════════════════════════
        NAVBAR SCROLL BEHAVIOR
     ═══════════════════════════════ */
-    
-    let lastScrollY = window.scrollY;
+
+    let lastScrollY = 0;
     let ticking = false;
 
-    window.addEventListener('scroll', () => {
-        if (!ticking) {
-            window.requestAnimationFrame(() => {
-                const nav = document.getElementById('nav');
-                const currentScrollY = window.scrollY;
-                
-                if (currentScrollY > 100) {
-                    nav.classList.add('show');
-                    nav.style.boxShadow = `
-                        0 12px 48px rgba(0, 0, 0, 0.6),
-                        0 4px 12px rgba(255, 122, 0, 0.15)
-                    `;
-                } else {
-                    nav.classList.remove('show');
-                    nav.style.boxShadow = `
-                        0 8px 32px rgba(0, 0, 0, 0.4),
-                        0 2px 8px rgba(255, 122, 0, 0.08)
-                    `;
-                }
-                
-                lastScrollY = currentScrollY;
-                ticking = false;
-            });
-            ticking = true;
-        }
-    });
+    // Attach scroll listener to active page
+    function attachScrollListener() {
+        const activePage = document.querySelector('.pg.active');
+        if (!activePage) return;
+
+        activePage.addEventListener('scroll', () => {
+            if (!ticking) {
+                window.requestAnimationFrame(() => {
+                    const nav = document.getElementById('nav');
+                    const currentScrollY = activePage.scrollTop;
+
+                    if (currentScrollY > 100) {
+                        nav.classList.add('show');
+                        nav.style.boxShadow = `
+                            0 12px 48px rgba(0, 0, 0, 0.6),
+                            0 4px 12px rgba(255, 122, 0, 0.15)
+                        `;
+                    } else {
+                        nav.classList.remove('show');
+                        nav.style.boxShadow = `
+                            0 8px 32px rgba(0, 0, 0, 0.4),
+                            0 2px 8px rgba(255, 122, 0, 0.08)
+                        `;
+                    }
+
+                    lastScrollY = currentScrollY;
+                    ticking = false;
+                });
+                ticking = true;
+            }
+        }, { passive: true });
+    }
+
+    attachScrollListener();
 
     /* ═══════════════════════════════
        CASE STUDY NAVIGATION
     ═══════════════════════════════ */
-    
+
     window.openCase = async function (projectId) {
         try {
             const res = await fetch("projects.json");
@@ -265,7 +327,7 @@ document.addEventListener("DOMContentLoaded", () => {
     /* ═══════════════════════════════
        MOBILE MENU
     ═══════════════════════════════ */
-    
+
     window.toggleMenu = function () {
         const menu = document.getElementById('mobMenu');
         const ham = document.getElementById('ham');
@@ -282,40 +344,7 @@ document.addEventListener("DOMContentLoaded", () => {
         setTimeout(closeMob, 300);
     });
 
-    /* ═══════════════════════════════
-       STAT COUNTERS
-    ═══════════════════════════════ */
     
-    setTimeout(() => {
-        document.querySelectorAll('.strip-n').forEach(el => {
-            const target = +el.dataset.t;
-            const format = el.dataset.format;
-            let progress = 0;
-
-            function tick() {
-                progress += 0.002;
-                const ease = 1 - Math.pow(1 - Math.min(progress, 1), 3);
-                const value = Math.round(target * ease);
-
-                let display;
-
-                if (format === "k") {
-                    display = Math.round(value / 1000) + "K+";
-                } else if (target >= 98) {
-                    display = value + "%";
-                } else {
-                    display = value + "+";
-                }
-
-                el.textContent = display;
-
-                if (progress < 1) requestAnimationFrame(tick);
-            }
-
-            requestAnimationFrame(tick);
-        });
-    }, 500);
-
     /* ═══════════════════════════════
        ENHANCED PORTFOLIO FILTERING
     ═══════════════════════════════ */
@@ -332,7 +361,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function initPortfolioFilters() {
         const filterBtns = document.querySelectorAll('.cat-btn');
-        
+
         if (!filterBtns.length) return;
 
         filterBtns.forEach(btn => {
@@ -392,10 +421,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
         const lb = document.getElementById('lb');
         const lbImg = document.getElementById('lbimg');
-        
+
         // Fade effect
         lbImg.style.opacity = '0';
-        
+
         setTimeout(() => {
             lbImg.src = imgSrc;
             lbImg.alt = img.alt || 'Gallery image';
@@ -422,7 +451,7 @@ document.addEventListener("DOMContentLoaded", () => {
         currentGalleryIndex = index >= 0 ? index : 0;
 
         showLightboxImage(currentGalleryIndex);
-        
+
         const lb = document.getElementById('lb');
         lb.classList.add('open');
         document.body.style.overflow = 'hidden';
@@ -593,7 +622,7 @@ Project Brief: ${message}`;
     /* ═══════════════════════════════
        REVIEW SLIDER
     ═══════════════════════════════ */
-    
+
     const reviewSlides = document.querySelectorAll('.review-slide');
     const reviewDots = document.querySelectorAll('.rdot');
     let reviewIndex = 0;
@@ -610,8 +639,8 @@ Project Brief: ${message}`;
         if (reviewDots[reviewIndex]) reviewDots[reviewIndex].classList.add('active');
     }
 
-    window.goReview = function (n) { 
-        showReview(n); 
+    window.goReview = function (n) {
+        showReview(n);
     };
 
     if (reviewSlides.length > 1) {
@@ -621,7 +650,7 @@ Project Brief: ${message}`;
     /* ═══════════════════════════════
        FADE-IN ANIMATIONS ON SCROLL
     ═══════════════════════════════ */
-    
+
     const observerOptions = {
         threshold: 0.15,
         rootMargin: '0px 0px -50px 0px'
@@ -644,7 +673,7 @@ Project Brief: ${message}`;
     /* ═══════════════════════════════
        SMOOTH SCROLL FOR FILTER BUTTONS (MOBILE)
     ═══════════════════════════════ */
-    
+
     if (window.innerWidth <= 768) {
         const portCats = document.querySelector('.port-cats');
         if (portCats) {
@@ -657,7 +686,7 @@ Project Brief: ${message}`;
     /* ═══════════════════════════════
        INITIALIZE GALLERY
     ═══════════════════════════════ */
-    
+
     loadGalleryFromJSON();
 
 });
@@ -667,10 +696,9 @@ Project Brief: ${message}`;
 ═══════════════════════════════ */
 
 window.addEventListener('beforeunload', function (e) {
-    // Only warn if user has scrolled or interacted
     const scrolled = window.scrollY > 100;
     const formFilled = document.querySelector('.f-input:not([value=""]');
-    
+
     if (scrolled || formFilled) {
         e.preventDefault();
         e.returnValue = '';
