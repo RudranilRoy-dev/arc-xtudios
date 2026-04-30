@@ -1,59 +1,111 @@
 [
   {
-    "src": "Wedding/IMG-20260413-WA0027.jpg",
-    "category": "Wedding"
+    "src": "Weddings-Events/IMG-20260413-WA0035.jpg",
+    "category": "Weddings-Events"
   },
   {
-    "src": "Wedding/IMG-20260413-WA0024.jpg",
-    "category": "Wedding"
+    "src": "Weddings-Events/IMG-20260413-WA0032.jpg",
+    "category": "Weddings-Events"
   },
   {
-    "src": "Wedding/IMG-20260413-WA0023.jpg",
-    "category": "Wedding"
+    "src": "Weddings-Events/IMG-20260413-WA0029.jpg",
+    "category": "Weddings-Events"
   },
   {
-    "src": "Wedding/IMG-20260413-WA0022.jpg",
-    "category": "Wedding"
+    "src": "Weddings-Events/IMG-20260413-WA0023.jpg",
+    "category": "Weddings-Events"
   },
   {
-    "src": "Wedding/IMG-20260413-WA0021.jpg",
-    "category": "Wedding"
+    "src": "Weddings-Events/IMG-20260413-WA0021.jpg",
+    "category": "Weddings-Events"
   },
   {
-    "src": "Pre-Wedding/Picsart_25-12-25_00-57-35-129.jpg.jpeg",
-    "category": "Pre-Wedding"
+    "src": "Weddings-Events/IMG-20260413-WA0020.jpg",
+    "category": "Weddings-Events"
   },
   {
-    "src": "Pre-Wedding/Picsart_25-12-25_00-01-10-813.jpg.jpeg",
-    "category": "Pre-Wedding"
-  },
-  {
-    "src": "Pre-Wedding/Picsart_25-11-07_22-23-08-436.jpg.jpeg",
-    "category": "Pre-Wedding"
-  },
-  {
-    "src": "Pre-Wedding/Picsart_25-10-30_21-01-06-002.jpg.jpeg",
-    "category": "Pre-Wedding"
-  },
-  {
-    "src": "Pre-Wedding/Picsart_25-10-30_17-51-14-983.jpg.jpeg",
-    "category": "Pre-Wedding"
-  },
-  {
-    "src": "Pre-Wedding/Picsart_25-09-29_02-39-13-431.jpg.jpeg",
-    "category": "Pre-Wedding"
-  },
-  {
-    "src": "Pre-Wedding/Picsart_25-09-21_12-45-48-044.jpg.jpeg",
-    "category": "Pre-Wedding"
-  },
-  {
-    "src": "Pre-Wedding/Picsart_25-09-20_01-10-31-571.jpg.jpeg",
-    "category": "Pre-Wedding"
-  },
-  {
-    "src": "Real-Estate/_DSC9195.JPG",
+    "src": "Real-Estate/_DSC9885-HDR.jpg",
     "category": "Real-Estate"
+  },
+  {
+    "src": "Real-Estate/_DSC9870-HDR.jpg",
+    "category": "Real-Estate"
+  },
+  {
+    "src": "Real-Estate/_DSC9840-HDR.jpg",
+    "category": "Real-Estate"
+  },
+  {
+    "src": "Real-Estate/_DSC9834-HDR.jpg",
+    "category": "Real-Estate"
+  },
+  {
+    "src": "Real-Estate/_DSC9831-HDR.jpg",
+    "category": "Real-Estate"
+  },
+  {
+    "src": "Real-Estate/_DSC9822-HDR.jpg",
+    "category": "Real-Estate"
+  },
+  {
+    "src": "Real-Estate/_DSC9811.jpg",
+    "category": "Real-Estate"
+  },
+  {
+    "src": "Real-Estate/_DSC9795-HDR.jpg",
+    "category": "Real-Estate"
+  },
+  {
+    "src": "Real-Estate/_DSC9762-HDR.jpg",
+    "category": "Real-Estate"
+  },
+  {
+    "src": "Real-Estate/_DSC9756-HDR.jpg",
+    "category": "Real-Estate"
+  },
+  {
+    "src": "Real-Estate/_DSC9608-HDR.jpg",
+    "category": "Real-Estate"
+  },
+  {
+    "src": "Real-Estate/_DSC9587-HDR.jpg",
+    "category": "Real-Estate"
+  },
+  {
+    "src": "Real-Estate/_DSC9578-HDR.jpg",
+    "category": "Real-Estate"
+  },
+  {
+    "src": "Portraits/Picsart_25-12-25_00-57-35-129.jpg.jpeg",
+    "category": "Portraits"
+  },
+  {
+    "src": "Portraits/Picsart_25-12-25_00-01-10-813.jpg.jpeg",
+    "category": "Portraits"
+  },
+  {
+    "src": "Portraits/Picsart_25-11-07_22-23-08-436.jpg.jpeg",
+    "category": "Portraits"
+  },
+  {
+    "src": "Portraits/Picsart_25-10-30_21-01-06-002.jpg.jpeg",
+    "category": "Portraits"
+  },
+  {
+    "src": "Portraits/Picsart_25-10-30_17-51-14-983.jpg.jpeg",
+    "category": "Portraits"
+  },
+  {
+    "src": "Portraits/Picsart_25-09-29_02-39-13-431.jpg.jpeg",
+    "category": "Portraits"
+  },
+  {
+    "src": "Portraits/Picsart_25-09-21_12-45-48-044.jpg.jpeg",
+    "category": "Portraits"
+  },
+  {
+    "src": "Portraits/Picsart_25-09-20_01-10-31-571.jpg.jpeg",
+    "category": "Portraits"
   },
   {
     "src": "Fashion/_DSC4749.jpeg",
@@ -72,6 +124,34 @@
     "category": "Fashion"
   },
   {
+    "src": "Creatives/_DSC9195.JPG",
+    "category": "Creatives"
+  },
+  {
+    "src": "Creatives/Picsart_25-09-20_00-54-52-353.jpg.jpeg",
+    "category": "Creatives"
+  },
+  {
+    "src": "Creatives/Picsart_25-09-20_00-53-44-225.jpg.jpeg",
+    "category": "Creatives"
+  },
+  {
+    "src": "Creatives/Picsart_25-09-20_00-52-55-344.jpg.jpeg",
+    "category": "Creatives"
+  },
+  {
+    "src": "Creatives/Picsart_25-09-17_16-06-10-716.jpg.jpeg",
+    "category": "Creatives"
+  },
+  {
+    "src": "Creatives/Picsart_25-09-17_16-04-49-483.png",
+    "category": "Creatives"
+  },
+  {
+    "src": "Creatives/Picsart_25-09-17_16-01-31-792.jpg.jpeg",
+    "category": "Creatives"
+  },
+  {
     "src": "Commercial/_DSC4878.jpeg",
     "category": "Commercial"
   },
@@ -85,30 +165,6 @@
   },
   {
     "src": "Commercial/Picsart_25-09-20_00-56-50-346.jpg.jpeg",
-    "category": "Commercial"
-  },
-  {
-    "src": "Commercial/Picsart_25-09-20_00-54-52-353.jpg.jpeg",
-    "category": "Commercial"
-  },
-  {
-    "src": "Commercial/Picsart_25-09-20_00-53-44-225.jpg.jpeg",
-    "category": "Commercial"
-  },
-  {
-    "src": "Commercial/Picsart_25-09-20_00-52-55-344.jpg.jpeg",
-    "category": "Commercial"
-  },
-  {
-    "src": "Commercial/Picsart_25-09-17_16-06-10-716.jpg.jpeg",
-    "category": "Commercial"
-  },
-  {
-    "src": "Commercial/Picsart_25-09-17_16-04-49-483.png",
-    "category": "Commercial"
-  },
-  {
-    "src": "Commercial/Picsart_25-09-17_16-01-31-792.jpg.jpeg",
     "category": "Commercial"
   },
   {
@@ -134,34 +190,6 @@
   {
     "src": "Commercial/Bajaj Pulsar NS400Z in its blacked-out form embodies a legacy of raw perfor_20260423_011927_0000.png",
     "category": "Commercial"
-  },
-  {
-    "src": "Brand-Content/IMG-20260413-WA0035.jpg",
-    "category": "Brand-Content"
-  },
-  {
-    "src": "Brand-Content/IMG-20260413-WA0034.jpg",
-    "category": "Brand-Content"
-  },
-  {
-    "src": "Brand-Content/IMG-20260413-WA0033.jpg",
-    "category": "Brand-Content"
-  },
-  {
-    "src": "Brand-Content/IMG-20260413-WA0032.jpg",
-    "category": "Brand-Content"
-  },
-  {
-    "src": "Brand-Content/IMG-20260413-WA0030.jpg",
-    "category": "Brand-Content"
-  },
-  {
-    "src": "Brand-Content/IMG-20260413-WA0029.jpg",
-    "category": "Brand-Content"
-  },
-  {
-    "src": "Brand-Content/IMG-20260413-WA0020.jpg",
-    "category": "Brand-Content"
   },
   {
     "src": "Brand-Content/IMG-20260413-WA0019.jpg",
