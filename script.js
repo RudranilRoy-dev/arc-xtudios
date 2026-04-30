@@ -1,73 +1,6 @@
 document.addEventListener("DOMContentLoaded", () => {
 
     /* ═══════════════════════════════
-       AUTO GALLERY FROM JSON
-    ═══════════════════════════════ */
-    async function loadGalleryFromJSON() {
-        const res = await fetch("images.json");
-        const images = await res.json();
-
-        function shuffle(array) {
-            for (let i = array.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                [array[i], array[j]] = [array[j], array[i]];
-            }
-        }
-
-        const savedOrder = localStorage.getItem("galleryOrder");
-
-        if (savedOrder) {
-            const order = JSON.parse(savedOrder);
-            images.sort((a, b) => order.indexOf(a.src) - order.indexOf(b.src));
-        } else {
-            shuffle(images);
-            const order = images.map(img => img.src);
-            localStorage.setItem("galleryOrder", JSON.stringify(order));
-        }
-
-        const gallery = document.querySelector(".gallery");
-        gallery.innerHTML = "";
-
-        images.forEach(img => {
-            const div = document.createElement("div");
-            div.className = "gcell";
-            div.setAttribute("data-c", img.category);
-
-            if (img.project) {
-                div.setAttribute("data-project", img.project);
-            }
-
-            div.innerHTML = `
-                <img src="Images/${img.src}" loading="lazy" alt="${img.title || ''}">
-                ${img.client ? `
-                    <div class="gcell-over">
-                        <div class="gcell-project-info">
-                            <div class="gcell-client">${img.client}</div>
-                            <div class="gcell-title">${img.title}</div>
-                        </div>
-                    </div>
-                ` : ''}
-            `;
-
-            div.onclick = () => {
-                if (img.project) {
-                    openCase(img.project);
-                } else {
-                    openLb(div);
-                }
-            };
-
-            gallery.appendChild(div);
-        });
-    }
-
-    loadGalleryFromJSON();
-
-    function getGalleryItems() {
-        return Array.from(document.querySelectorAll('.gcell'));
-    }
-
-    /* ═══════════════════════════════
        HERO SLIDESHOW
     ═══════════════════════════════ */
     let slide = 0;
@@ -226,88 +159,173 @@ document.addEventListener("DOMContentLoaded", () => {
     }, 500);
 
     /* ═══════════════════════════════
-       PORTFOLIO FILTER + LIGHTBOX
-    ═══════════════════════════════ */
+   GALLERY + METADATA (UPGRADED)
+═══════════════════════════════ */
+
+    const galleryMetadata = {};
     let activeFilter = 'all';
     let visibleGalleryItems = [];
     let currentGalleryIndex = 0;
 
-    function updateVisibleGalleryItems() {
-        visibleGalleryItems = getGalleryItems().filter(item => {
-            return activeFilter === 'all' || item.dataset.c === activeFilter;
+    async function loadGallery() {
+        const res = await fetch("images.json");
+        const images = await res.json();
+
+        const gallery = document.querySelector(".gallery");
+        if (!gallery) return;
+
+        gallery.innerHTML = "";
+
+        images.forEach(img => {
+
+            const src = `Images/${img.src}`;
+
+            // STORE METADATA
+            galleryMetadata[src] = {
+                category: formatCategory(img.category),
+                title: img.title || "Untitled",
+                description: img.description || "Creative production by ARC Xtudios."
+            };
+
+            const div = document.createElement("div");
+            div.className = "gcell";
+            div.dataset.c = img.category;
+
+            div.innerHTML = `
+            <img src="${src}" alt="${img.title || ''}" loading="lazy">
+        `;
+
+            div.onclick = () => openLightbox(div);
+
+            gallery.appendChild(div);
         });
+
+        updateVisibleItems();
     }
 
-    document.querySelectorAll('.cat-btn').forEach(btn => {
-        btn.addEventListener('click', function () {
-            document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('on'));
-            this.classList.add('on');
+    function formatCategory(c) {
+        const map = {
+            "weddings-events": "Weddings & Events",
+            "portraits": "Portraits",
+            "creative": "Creative",
+            "commercial": "Commercial",
+            "fashion": "Fashion",
+            "brand-content": "Brand Content"
+        };
+        return map[c] || c;
+    }
 
-            activeFilter = this.dataset.f;
+    /* ═══════════════════════════════
+       FILTER (SMOOTH)
+    ═══════════════════════════════ */
 
-            getGalleryItems().forEach(item => {
-                const show = activeFilter === 'all' || item.dataset.c === activeFilter;
-                item.classList.toggle('hide', !show);
+    function initFilters() {
+        document.querySelectorAll(".cat-btn").forEach(btn => {
+
+            btn.addEventListener("click", () => {
+
+                document.querySelectorAll(".cat-btn").forEach(b => b.classList.remove("on"));
+                btn.classList.add("on");
+
+                activeFilter = btn.dataset.f;
+
+                const items = document.querySelectorAll(".gcell");
+
+                items.forEach(el => {
+                    el.style.opacity = "0";
+                    el.style.transform = "scale(0.95)";
+                });
+
+                setTimeout(() => {
+                    items.forEach(el => {
+                        const show = activeFilter === "all" || el.dataset.c === activeFilter;
+
+                        if (show) {
+                            el.classList.remove("hide");
+                            requestAnimationFrame(() => {
+                                el.style.opacity = "1";
+                                el.style.transform = "scale(1)";
+                            });
+                        } else {
+                            el.classList.add("hide");
+                        }
+                    });
+
+                    updateVisibleItems();
+                }, 250);
             });
-
-            updateVisibleGalleryItems();
-            closeLb();
         });
-    });
-
-    function showLightboxImage(index) {
-        if (!visibleGalleryItems.length) return;
-
-        currentGalleryIndex = (index + visibleGalleryItems.length) % visibleGalleryItems.length;
-        const activeItem = visibleGalleryItems[currentGalleryIndex];
-        const img = activeItem.querySelector('img');
-
-        document.getElementById('lbimg').src = img.src;
-        document.getElementById('lbimg').alt = img.alt || 'Gallery image';
     }
 
-    window.openLb = function (el) {
-        updateVisibleGalleryItems();
+    function updateVisibleItems() {
+        visibleGalleryItems = Array.from(document.querySelectorAll(".gcell"))
+            .filter(el => activeFilter === "all" || el.dataset.c === activeFilter);
+    }
 
-        const index = visibleGalleryItems.indexOf(el);
-        currentGalleryIndex = index >= 0 ? index : 0;
+    /* ═══════════════════════════════
+       LIGHTBOX (WITH DESCRIPTION)
+    ═══════════════════════════════ */
 
-        showLightboxImage(currentGalleryIndex);
-        document.getElementById('lb').classList.add('open');
-        document.body.style.overflow = 'hidden';
-    };
+    function openLightbox(el) {
+        updateVisibleItems();
+
+        currentGalleryIndex = visibleGalleryItems.indexOf(el);
+        showImage(currentGalleryIndex);
+
+        document.getElementById("lb").classList.add("open");
+        document.body.style.overflow = "hidden";
+    }
+
+    function showImage(index) {
+        currentGalleryIndex = (index + visibleGalleryItems.length) % visibleGalleryItems.length;
+
+        const el = visibleGalleryItems[currentGalleryIndex];
+        const img = el.querySelector("img");
+        const src = img.src;
+
+        const lb = document.getElementById("lb");
+        const lbImg = document.getElementById("lbimg");
+
+        lbImg.src = src;
+
+        const meta = galleryMetadata[src];
+
+        if (meta) {
+            lb.querySelector(".lb-category").textContent = meta.category;
+            lb.querySelector(".lb-title").textContent = meta.title;
+            lb.querySelector(".lb-description").textContent = meta.description;
+        }
+    }
 
     window.closeLb = function () {
-        const lb = document.getElementById('lb');
-        lb.classList.remove('open');
-        document.body.style.overflow = '';
-    };
-
-    window.prevLb = function (e) {
-        if (e) e.stopPropagation();
-        showLightboxImage(currentGalleryIndex - 1);
+        document.getElementById("lb").classList.remove("open");
+        document.body.style.overflow = "";
     };
 
     window.nextLb = function (e) {
         if (e) e.stopPropagation();
-        showLightboxImage(currentGalleryIndex + 1);
+        showImage(currentGalleryIndex + 1);
     };
 
-    const lb = document.getElementById('lb');
-    if (lb) {
-        lb.addEventListener('click', e => {
-            if (e.target === lb) closeLb();
-        });
-    }
+    window.prevLb = function (e) {
+        if (e) e.stopPropagation();
+        showImage(currentGalleryIndex - 1);
+    };
 
-    document.addEventListener('keydown', e => {
-        const isOpen = document.getElementById('lb')?.classList.contains('open');
+    /* KEYBOARD NAV */
+    document.addEventListener("keydown", e => {
+        const open = document.getElementById("lb")?.classList.contains("open");
+        if (!open) return;
 
-        if (!isOpen) return;
+        if (e.key === "Escape") closeLb();
+        if (e.key === "ArrowRight") nextLb();
+        if (e.key === "ArrowLeft") prevLb();
+    });
 
-        if (e.key === 'Escape') closeLb();
-        if (e.key === 'ArrowLeft') prevLb();
-        if (e.key === 'ArrowRight') nextLb();
+    /* INIT */
+    document.addEventListener("DOMContentLoaded", () => {
+        loadGallery();
+        setTimeout(initFilters, 300);
     });
 
     /* ═══════════════════════════════

@@ -28,7 +28,7 @@
         <a href="#" onclick="go('contact');closeMob()">Contact</a>
     </div>
 
-    <!-- NAV -->
+    <!-- NAV - UPGRADED WITH CHARCOAL BLACK & HALO -->
     <nav id="nav">
         <a href="#" class="nav-brand" onclick="go('home');return false;">
             <div class="brand-wrap">
@@ -92,25 +92,13 @@
                 </div>
             </div>
 
-            <!-- 2. STATS STRIP -->
-            <div class="home-strip">
-                <div class="strip-stat">
-                    <div class="strip-n" data-t="50">0</div>
-                    <div class="strip-l">Brand Projects</div>
+            <!-- 2. BUILT FOR BRANDS SECTION - REPLACED STATS -->
+            <section class="home-brand-statement">
+                <div class="brand-statement-inner fade-in-up">
+                    <h2 class="brand-statement-h">Built for Brands. Open to Stories.</h2>
+                    <p class="brand-statement-sub">Precision in production. Creativity in every frame.</p>
                 </div>
-                <div class="strip-stat">
-                    <div class="strip-n" data-t="30">0</div>
-                    <div class="strip-l">Real Estate Shoots</div>
-                </div>
-                <div class="strip-stat">
-                    <div class="strip-n" data-t="99">0</div>
-                    <div class="strip-l">Client Retention</div>
-                </div>
-                <div class="strip-stat">
-                    <div class="strip-n" data-t="500000" data-format="k">0</div>
-                    <div class="strip-l">Social Impressions</div>
-                </div>
-            </div>
+            </section>
 
             <!-- 3. FEATURED WORK -->
             <div class="home-featured">
@@ -438,7 +426,8 @@
                         </div>
                         <p class="footer-tagline">Commercial Meets<br>Cinematic.</p>
                         <p class="footer-about-text">A creative production studio based in Santiniketan, India —
-                            specialising in commercial Advertisements, fashion editorial, and real estate photography since
+                            specialising in commercial Advertisements, fashion editorial, and real estate photography
+                            since
                             2025.</p>
                         <div class="footer-socials">
                             <a href="#" class="fsoc" title="Instagram">
@@ -544,7 +533,7 @@
         </div><!-- /pg-home -->
 
         <!-- ══════════════════════════════
-         PAGE · PORTFOLIO
+         PAGE · PORTFOLIO - UPDATED CATEGORIES
     ══════════════════════════════ -->
         <div class="pg" id="pg-portfolio">
             <div class="port-hero">
@@ -555,14 +544,16 @@
                 </div>
             </div>
             <div class="port-body">
+                <!-- UPDATED CATEGORY FILTERS -->
                 <div class="port-cats">
-                    <button class="cat-btn on" data-f="all">All</button>
+                    <button class="cat-btn on" data-f="all">All Work</button>
                     <button class="cat-btn" data-f="Commercial">Commercial</button>
                     <button class="cat-btn" data-f="Fashion">Fashion</button>
                     <button class="cat-btn" data-f="Real-Estate">Real Estate</button>
                     <button class="cat-btn" data-f="Brand-Content">Brand Content</button>
-                    <button class="cat-btn" data-f="Wedding">Wedding</button>
-                    <button class="cat-btn" data-f="Pre-Wedding">Pre-Wedding</button>
+                    <button class="cat-btn" data-f="Weddings-Events">Weddings & Events</button>
+                    <button class="cat-btn" data-f="Portraits">Portraits</button>
+                    <button class="cat-btn" data-f="Creatives">Creatives</button>
                 </div>
                 <div class="gallery"></div>
             </div>
@@ -588,7 +579,8 @@
                             content should be <strong>as cinematic as it is strategic.</strong></p>
 
                         <p>We are a creative production studio specializing in high-end visual content for brands,
-                            artists, and businesses. From Advertisement photography to real estate visuals, every frame is
+                            artists, and businesses. From Advertisement photography to real estate visuals, every frame
+                            is
                             crafted with intention — where artistic vision meets commercial precision.</p>
 
                         <p>Based in Santiniketan, we collaborate with clients across India and internationally, bringing
@@ -641,7 +633,8 @@
             </div>
             <div class="svc-body">
                 <div class="svc-intro">
-                    <p>From commercial Advertisements to real estate photography — we bring the same strategic artistry to
+                    <p>From commercial Advertisements to real estate photography — we bring the same strategic artistry
+                        to
                         every project we deliver.</p>
                 </div>
                 <div class="svc-list">
@@ -720,7 +713,8 @@
                 <div class="testi-featured">
                     <div class="tfeat">
                         <div class="tfeat-stars">★★★★★</div>
-                        <p class="tfeat-text">"They didn't just deliver Advertisement assets — they elevated our entire brand
+                        <p class="tfeat-text">"They didn't just deliver Advertisement assets — they elevated our entire
+                            brand
                             narrative. The visuals drove 3x engagement and became our visual identity for the year."</p>
                         <div class="tfeat-author">
                             <img class="tfeat-avatar"
@@ -744,7 +738,8 @@
                 <div class="testi-secondary">
                     <div class="tsec">
                         <div class="tsec-stars">★★★★★</div>
-                        <p class="tsec-text">"Professional, strategic, and visually stunning. My product Advertisement drove
+                        <p class="tsec-text">"Professional, strategic, and visually stunning. My product Advertisement
+                            drove
                             3x ROI within the first month."</p>
                         <div class="tsec-author"><img class="tsec-avatar"
                                 src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=80&q=80" alt="">
@@ -975,12 +970,21 @@
 
     </div><!-- /stage -->
 
-    <!-- LIGHTBOX -->
+    <!-- ENHANCED LIGHTBOX WITH PROJECT INFO -->
     <div id="lb">
-        <button id="lb-prev" onclick="prevLb(event)">&#10094;</button>
-        <img id="lbimg" src="" alt="Gallery image">
-        <button id="lb-next" onclick="nextLb(event)">&#10095;</button>
-        <button id="lb-x" onclick="closeLb()">×</button>
+        <button id="lb-x" aria-label="Close" onclick="closeLb()">×</button>
+        <button id="lb-prev" aria-label="Previous" onclick="prevLb(event)">‹</button>
+        <button id="lb-next" aria-label="Next" onclick="nextLb(event)">›</button>
+        <div class="lb-content">
+            <img id="lbimg" src="" alt="">
+            <div class="lb-info">
+                <div class="lb-info-inner">
+                    <span class="lb-category"></span>
+                    <h3 class="lb-title"></h3>
+                    <p class="lb-description"></p>
+                </div>
+            </div>
+        </div>
     </div>
 
     <!-- FLOAT WA -->
