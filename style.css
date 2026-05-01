@@ -505,6 +505,22 @@ body {
     background-image: url('Images/IMG-20260413-WA0013.jpg');
 }
 
+.hero-img:nth-child(5) {
+    background-image: url('Images/_DSC9756-HDR.jpg');
+}
+
+.hero-img:nth-child(6) {
+    background-image: url('Images/Picsart_25-10-30_17-51-14-983.jpg.jpeg');
+}
+
+.hero-img:nth-child(7) {
+    background-image: url('Images/Picsart_25-09-20_00-58-39-545.jpg.jpeg');
+}
+
+.hero-img:nth-child(8) {
+    background-image: url('Images/IMG-20260413-WA0013.jpg');
+}
+
 .hero-veil {
     position: absolute;
     inset: 0;
