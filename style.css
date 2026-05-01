@@ -4754,4 +4754,509 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     .home-hero {
         height: 100svh;
     }
+}/* ══════════════════════════════════════════════════════════════
+   ARC Xtudios — Mobile Layout Fixes
+   Link AFTER style.css:  <link rel="stylesheet" href="mobile-fixes.css">
+   Scope: 320px – 768px · Mobile-first overrides only
+   ══════════════════════════════════════════════════════════════ */
+
+/* ─────────────────────────────────────────────────────────────
+   FIX 1 · Body height lock
+   Root cause: `body { height: 100svh }` clamps the body to the
+   viewport and prevents natural content overflow/scrolling.
+   Fix: body grows with content; 100svh is only a minimum.
+   ───────────────────────────────────────────────────────────── */
+body {
+    height: auto;
+    min-height: 100svh;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   FIX 2 · Page / stage system on mobile (≤1024 px)
+   Root cause: #stage becomes `position:fixed; overflow:hidden`
+   but .pg.active keeps `position:relative` (higher specificity
+   in base CSS wins), so page content is clipped by the fixed
+   stage and can never be scrolled.
+   Fix: Force .pg.active back to `position:absolute` with
+   overflow-y:auto so each page is its own scroll container —
+   matching the JS pattern `nextPage.scrollTop = 0`.
+   ───────────────────────────────────────────────────────────── */
+@media (max-width: 1024px) {
+    .pg.active {
+        position: absolute !important;
+        top: 0 !important;
+        left: 0 !important;
+        right: 0 !important;
+        bottom: 0 !important;
+        height: 100% !important;
+        overflow-y: auto !important;
+        -webkit-overflow-scrolling: touch;
+        overscroll-behavior-y: contain;
+    }
+
+    .pg.exiting {
+        overflow: hidden !important;
+    }
+}
+
+/* ─────────────────────────────────────────────────────────────
+   FIX 3 · Global horizontal overflow guard
+   Root cause: Large fixed widths, big paddings, and pseudo
+   elements wider than the viewport cause horizontal scrolling.
+   Fix: Hard-clamp anything that breaks outside the viewport.
+   ───────────────────────────────────────────────────────────── */
+@media (max-width: 768px) {
+    html,
+    body {
+        overflow-x: hidden;
+        max-width: 100vw;
+    }
+
+    /* Pseudo-elements that use inset: -50% / width: 200% cause
+       layout overflow — contain them */
+    .home-brand-statement::before,
+    .home-strip::before,
+    .home-featured::before,
+    .home-editorial::before,
+    .home-services-prev::before,
+    .home-process::before,
+    .home-pullquote::before,
+    .home-news::before,
+    .home-cta-band::before,
+    .about-body-section::before,
+    .case-body::before {
+        inset: 0 !important;
+        width: 100% !important;
+        height: 100% !important;
+    }
+}
+
+/* ─────────────────────────────────────────────────────────────
+   FIX 4 · Nav padding on small screens
+   Root cause: `#nav { padding: 24px 32px }` at 1024px.
+   32 px side padding eats 64 px on a 360 px screen — too much.
+   Fix: tighten to 14px vertical / 18px horizontal at ≤480 px.
+   ───────────────────────────────────────────────────────────── */
+@media (max-width: 480px) {
+    #nav {
+        padding: 14px 18px !important;
+    }
+
+    .logo-circle {
+        width: 36px !important;
+        height: 36px !important;
+    }
+
+    .brand-name {
+        font-size: 1rem !important;
+    }
+}
+
+/* ─────────────────────────────────────────────────────────────
+   FIX 5 · Hero section — typography, layout, buttons
+   Root causes:
+   a) .hero-h1 clamp min = 3.5rem (63px @18px base) — too large
+      for 320–480px screens.
+   b) .hero-content padding: 0 60px 70px — 120px horizontal
+      consumed on a 360px screen.
+   c) .hero-btns has no stacking rule — buttons overflow.
+   d) .hero-sub max-width:280px and text-align:right are wrong
+      after the 640px column-stack kicks in.
+   ───────────────────────────────────────────────────────────── */
+@media (max-width: 640px) {
+    .hero-content {
+        padding: 0 20px 52px !important;
+        gap: 20px !important;
+    }
+
+    .hero-h1 {
+        font-size: clamp(1.85rem, 7.5vw, 3rem) !important;
+        line-height: 1.1 !important;
+    }
+
+    .hero-sub {
+        max-width: 100% !important;
+        font-size: 14px !important;
+        line-height: 1.7 !important;
+    }
+
+    .hero-btns {
+        flex-direction: column !important;
+        width: 100% !important;
+        gap: 10px !important;
+    }
+
+    .btn-hero-fill,
+    .btn-hero-ghost {
+        width: 100% !important;
+        text-align: center !important;
+        padding: 12px 16px !important;
+        font-size: .62rem !important;
+    }
+
+    .hero-right {
+        width: 100% !important;
+        gap: 16px !important;
+    }
+
+    .hero-eyebrow {
+        font-size: .55rem !important;
+        letter-spacing: .35em !important;
+    }
+}
+
+@media (max-width: 380px) {
+    .hero-h1 {
+        font-size: clamp(1.6rem, 8vw, 2.4rem) !important;
+    }
+}
+
+/* ─────────────────────────────────────────────────────────────
+   FIX 6 · Section horizontal padding — small screens
+   Root cause: Most sections use `padding: 64px 32px` at 768px.
+   32px × 2 = 64px consumed on a 360–480px screen, leaving only
+   ~295px for content — very tight with text + grids.
+   Fix: reduce side padding to 16px at ≤480px.
+   ───────────────────────────────────────────────────────────── */
+@media (max-width: 480px) {
+    .home-featured,
+    .home-editorial,
+    .home-services-prev,
+    .home-process,
+    .home-pullquote,
+    .home-news,
+    .home-insta,
+    .home-cta-band,
+    .port-body,
+    .svc-body,
+    .stories-body,
+    .about-body-section,
+    .contact-left-panel,
+    .contact-right-panel,
+    .case-body {
+        padding-left: 16px !important;
+        padding-right: 16px !important;
+    }
+
+    .home-strip {
+        padding-left: 12px !important;
+        padding-right: 12px !important;
+    }
+}
+
+/* ─────────────────────────────────────────────────────────────
+   FIX 7 · Brand statement — typography
+   Root cause: `.brand-statement-h` clamp min = 2.8rem (50px).
+   Existing 768px override sets min to 2.2rem — still 39px on
+   a 320px screen. Reduce further and tighten padding.
+   ───────────────────────────────────────────────────────────── */
+@media (max-width: 480px) {
+    .home-brand-statement {
+        padding: 52px 16px !important;
+    }
+
+    .brand-statement-h {
+        font-size: clamp(1.55rem, 6.5vw, 2rem) !important;
+        line-height: 1.2 !important;
+    }
+
+    .brand-statement-sub {
+        font-size: 0.88rem !important;
+        line-height: 1.65 !important;
+    }
+}
+
+/* ─────────────────────────────────────────────────────────────
+   FIX 8 · Featured work grid — fixed image heights on mobile
+   Root cause: .feat-cell:nth-child(1) img { height: 520px }
+   and 258px for siblings — these are fixed heights that break
+   on small screens. The 1024px rule sets 340px/220px but that
+   is still too tall for 360px-wide phones.
+   Fix: use aspect-ratio instead of fixed heights on mobile.
+   ───────────────────────────────────────────────────────────── */
+@media (max-width: 640px) {
+    .feat-grid {
+        grid-template-columns: 1fr !important;
+        gap: 4px !important;
+    }
+
+    .feat-cell:nth-child(1) {
+        grid-row: auto !important;
+    }
+
+    .feat-cell img,
+    .feat-cell:nth-child(1) img,
+    .feat-cell:nth-child(2) img,
+    .feat-cell:nth-child(3) img {
+        height: auto !important;
+        aspect-ratio: 4 / 3 !important;
+        width: 100% !important;
+    }
+
+    .sec-header {
+        flex-direction: column !important;
+        align-items: flex-start !important;
+        gap: 10px !important;
+        margin-bottom: 24px !important;
+    }
+
+    .sec-h {
+        font-size: clamp(1.5rem, 6vw, 2rem) !important;
+    }
+
+    .home-featured {
+        padding-top: 52px !important;
+        padding-bottom: 52px !important;
+    }
+}
+
+/* ─────────────────────────────────────────────────────────────
+   FIX 9 · Editorial section — ensure inner padding + heading
+   Root cause: editorial-inner gap:80px and heading still large
+   at 480px even with existing 768px partial fix.
+   ───────────────────────────────────────────────────────────── */
+@media (max-width: 480px) {
+    .editorial-inner {
+        gap: 24px !important;
+    }
+
+    .editorial-h {
+        font-size: clamp(1.55rem, 6vw, 2.2rem) !important;
+    }
+
+    .home-editorial {
+        padding-top: 52px !important;
+        padding-bottom: 52px !important;
+    }
+}
+
+/* ─────────────────────────────────────────────────────────────
+   FIX 10 · Services cards — ensure single column at 480px
+   Already handled at 480px in base CSS, but grid-gap is wide.
+   ───────────────────────────────────────────────────────────── */
+@media (max-width: 480px) {
+    .hsp-grid,
+    .hsp-grid-full {
+        gap: 8px !important;
+    }
+
+    .home-services-prev {
+        padding-top: 52px !important;
+        padding-bottom: 52px !important;
+    }
+
+    .hsp-header {
+        margin-bottom: 28px !important;
+    }
+}
+
+/* ─────────────────────────────────────────────────────────────
+   FIX 11 · Process steps — spacing at small sizes
+   ───────────────────────────────────────────────────────────── */
+@media (max-width: 480px) {
+    .home-process {
+        padding-top: 52px !important;
+        padding-bottom: 52px !important;
+    }
+
+    .pstep-divider {
+        margin: 20px 0 !important;
+    }
+
+    .pstep-num {
+        font-size: 2rem !important;
+        margin-bottom: 10px !important;
+    }
+
+    .process-header {
+        margin-bottom: 36px !important;
+    }
+}
+
+/* ─────────────────────────────────────────────────────────────
+   FIX 12 · Stats strip — tighten numbers on tiny screens
+   ───────────────────────────────────────────────────────────── */
+@media (max-width: 480px) {
+    .strip-n {
+        font-size: 2rem !important;
+    }
+
+    .strip-l {
+        font-size: 11px !important;
+        letter-spacing: .15em !important;
+    }
+
+    .strip-stat {
+        padding: 14px 6px !important;
+    }
+}
+
+/* ─────────────────────────────────────────────────────────────
+   FIX 13 · Pull-quote / news / CTA sections — compact padding
+   ───────────────────────────────────────────────────────────── */
+@media (max-width: 480px) {
+    .home-pullquote {
+        padding-top: 56px !important;
+        padding-bottom: 56px !important;
+    }
+
+    .home-news {
+        padding-top: 52px !important;
+        padding-bottom: 52px !important;
+    }
+
+    .home-cta-band {
+        padding-top: 56px !important;
+        padding-bottom: 56px !important;
+    }
+}
+
+/* ─────────────────────────────────────────────────────────────
+   FIX 14 · CTA band heading overflow
+   Root cause: Large display font with letter-spacing can break
+   out of a 320px container.
+   ───────────────────────────────────────────────────────────── */
+@media (max-width: 640px) {
+    .cta-h,
+    .pullquote-text {
+        font-size: clamp(1.6rem, 6.5vw, 2.6rem) !important;
+        letter-spacing: -0.01em !important;
+    }
+
+    .cta-sub,
+    .pullquote-attr {
+        font-size: 0.85rem !important;
+    }
+}
+
+/* ─────────────────────────────────────────────────────────────
+   FIX 15 · About hero image — remove fixed height on mobile
+   Root cause: .about-hero-img { height: 280px } at 1024px is
+   fine for tablets but on 320px phones it's still very tall.
+   ───────────────────────────────────────────────────────────── */
+@media (max-width: 480px) {
+    .about-hero-img {
+        height: 220px !important;
+    }
+
+    .about-hero-text {
+        padding: 36px 16px !important;
+    }
+}
+
+/* ─────────────────────────────────────────────────────────────
+   FIX 16 · Images — always scale correctly
+   Ensures no img ever overflows its container on any screen.
+   ───────────────────────────────────────────────────────────── */
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+/* Allow feat-cell to control img height via aspect-ratio */
+.feat-cell img {
+    display: block;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   FIX 17 · Footer — tighten at very small screens
+   ───────────────────────────────────────────────────────────── */
+@media (max-width: 480px) {
+    .site-footer .footer-top {
+        padding: 44px 16px 36px !important;
+    }
+
+    .footer-bottom {
+        padding: 14px 16px !important;
+        font-size: .65rem !important;
+    }
+
+    .f-brand-name {
+        font-size: 1.1rem !important;
+    }
+}
+
+/* ─────────────────────────────────────────────────────────────
+   FIX 18 · Contact panel — tighten top padding on mobile
+   Root cause: contact-left-panel { padding: 100px 32px 60px }
+   at 1024px. 100px top padding on a mobile page is excessive.
+   ───────────────────────────────────────────────────────────── */
+@media (max-width: 640px) {
+    .contact-left-panel {
+        padding-top: 72px !important;
+        padding-bottom: 36px !important;
+    }
+
+    .contact-right-panel {
+        padding-top: 32px !important;
+        padding-bottom: 52px !important;
+    }
+}
+
+/* ─────────────────────────────────────────────────────────────
+   FIX 19 · Portfolio category buttons — prevent overflow row
+   Root cause: Many category buttons in a flex row without wrap
+   can overflow on small screens.
+   ───────────────────────────────────────────────────────────── */
+.port-cats {
+    flex-wrap: wrap !important;
+}
+
+@media (max-width: 480px) {
+    .cat-btn {
+        font-size: .52rem !important;
+        padding: 8px 12px !important;
+        letter-spacing: .14em !important;
+    }
+}
+
+/* ─────────────────────────────────────────────────────────────
+   FIX 20 · Mobile menu — ensure it doesn't overflow
+   ───────────────────────────────────────────────────────────── */
+.mob-menu {
+    overflow-x: hidden !important;
+}
+
+@media (max-width: 380px) {
+    .mob-menu a {
+        font-size: 2.2rem !important;
+    }
+}
+
+/* ─────────────────────────────────────────────────────────────
+   FIX 21 · Lightbox — ensure it works on mobile
+   ───────────────────────────────────────────────────────────── */
+@media (max-width: 480px) {
+    #lb-box {
+        flex-direction: column !important;
+        max-height: 95svh !important;
+        overflow-y: auto !important;
+        width: 95vw !important;
+        border-radius: 0 !important;
+    }
+
+    #lbimg {
+        max-width: 95vw !important;
+        max-height: 55vh !important;
+        width: 100% !important;
+        height: auto !important;
+        object-fit: contain !important;
+    }
+
+    .lb-info {
+        padding: 20px 16px 16px !important;
+    }
+}
+
+/* ─────────────────────────────────────────────────────────────
+   FIX 22 · WA floating button — avoid overlap with content
+   ───────────────────────────────────────────────────────────── */
+@media (max-width: 640px) {
+    #fwa {
+        bottom: 20px !important;
+        right: 16px !important;
+        width: 46px !important;
+        height: 46px !important;
+        font-size: 1.1rem !important;
+    }
 }
