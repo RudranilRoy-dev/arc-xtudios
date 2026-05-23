@@ -490,35 +490,35 @@ body {
 }
 
 .hero-img:nth-child(1) {
-    background-image: url('Images/_DSC9756-HDR.jpg');
+    background-image: url('Images/_DSC9756-HDR.webp');
 }
 
 .hero-img:nth-child(2) {
-    background-image: url('Images/Picsart_25-10-30_17-51-14-983.jpg.jpeg');
+    background-image: url('Images/Picsart_25-10-30_17-51-14-983.webp');
 }
 
 .hero-img:nth-child(3) {
-    background-image: url('Images/Picsart_25-09-20_00-58-39-545.jpg.jpeg');
+    background-image: url('Images/Picsart_25-09-20_00-58-39-545.webp');
 }
 
 .hero-img:nth-child(4) {
-    background-image: url('Images/IMG-20260413-WA0013.jpg');
+    background-image: url('Images/IMG-20260413-WA0013.webp');
 }
 
 .hero-img:nth-child(5) {
-    background-image: url('Images/_DSC9756-HDR.jpg');
+    background-image: url('Images/_DSC9756-HDR.webp');
 }
 
 .hero-img:nth-child(6) {
-    background-image: url('Images/Picsart_25-10-30_17-51-14-983.jpg.jpeg');
+    background-image: url('Images/Picsart_25-10-30_17-51-14-983.webp');
 }
 
 .hero-img:nth-child(7) {
-    background-image: url('Images/Picsart_25-09-20_00-58-39-545.jpg.jpeg');
+    background-image: url('Images/Picsart_25-09-20_00-58-39-545.webp');
 }
 
 .hero-img:nth-child(8) {
-    background-image: url('Images/IMG-20260413-WA0013.jpg');
+    background-image: url('Images/IMG-20260413-WA0013.webp');
 }
 
 .hero-veil {
@@ -2240,7 +2240,7 @@ body {
 .port-hero-bg {
     position: absolute;
     inset: 0;
-    background: url("Images/DSCF1699.JPG") center/cover;
+    background: url("Images/DSCF1699.webp") center/cover;
     filter: brightness(.4) saturate(1.1);
 }
 
@@ -2741,7 +2741,7 @@ body {
 }
 
 .about-hero-img {
-    background: url('Images/1776934517594.jpg.jpeg') center/cover;
+    background: url('Images/1776934517594.webp') center/cover;
     filter: brightness(.95) saturate(1.1) contrast(1.02);
     position: relative;
 }
@@ -2984,7 +2984,7 @@ body {
 .svc-hero-bg {
     position: absolute;
     inset: 0;
-    background: url('Images/IMG-20260413-WA0033.jpg') center/cover;
+    background: url('Images/IMG-20260413-WA0033.webp') center/cover;
     filter: brightness(.55) saturate(1.1);
 }
 
