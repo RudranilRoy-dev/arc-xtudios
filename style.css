@@ -461,64 +461,70 @@ body {
     border: 1px solid rgba(240, 244, 248, .18);
 }
 
-/* ── Hero ── */
+/* HERO */
 .home-hero {
-    height: 100svh;
     position: relative;
+    height: 100svh;
     overflow: hidden;
     display: flex;
     align-items: flex-end;
 }
 
-.hero-imgs {
+/* SLIDER */
+.hero-slider {
     position: absolute;
     inset: 0;
 }
 
-.hero-img {
+/* SLIDES */
+.hero-slide {
     position: absolute;
     inset: 0;
-    background-size: cover;
-    background-position: center;
+
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
+
     opacity: 0;
-    filter: brightness(1.05) saturate(1.1) contrast(1.02);
-    transition: opacity 1.2s var(--ease);
+
+    transition: opacity 1s ease;
+
+    will-change: opacity;
+
+    transform: translateZ(0);
 }
 
-.hero-img.show {
+/* ACTIVE */
+.hero-slide.active {
     opacity: 1;
 }
 
-.hero-img:nth-child(1) {
-    background-image: url('Images/_DSC9756-HDR.webp');
+/* OVERLAY */
+.hero-veil {
+    position: absolute;
+    inset: 0;
+
+    background:
+        linear-gradient(
+            to top,
+            rgba(0,17,31,.96) 0%,
+            rgba(0,17,31,.25) 45%,
+            transparent 100%
+        ),
+        linear-gradient(
+            to right,
+            rgba(0,17,31,.82) 0%,
+            transparent 58%
+        );
+
+    z-index: 1;
 }
 
-.hero-img:nth-child(2) {
-    background-image: url('Images/Picsart_25-10-30_17-51-14-983.webp');
-}
-
-.hero-img:nth-child(3) {
-    background-image: url('Images/Picsart_25-09-20_00-58-39-545.webp');
-}
-
-.hero-img:nth-child(4) {
-    background-image: url('Images/IMG-20260413-WA0013.webp');
-}
-
-.hero-img:nth-child(5) {
-    background-image: url('Images/_DSC9756-HDR.webp');
-}
-
-.hero-img:nth-child(6) {
-    background-image: url('Images/Picsart_25-10-30_17-51-14-983.webp');
-}
-
-.hero-img:nth-child(7) {
-    background-image: url('Images/Picsart_25-09-20_00-58-39-545.webp');
-}
-
-.hero-img:nth-child(8) {
-    background-image: url('Images/IMG-20260413-WA0013.webp');
+/* CONTENT */
+.hero-content {
+    position: relative;
+    z-index: 2;
 }
 
 .hero-veil {

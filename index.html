@@ -2,81 +2,56 @@
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8" />
+    <meta charset="UTF-8" />
 
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1, viewport-fit=cover"
-  />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
 
-  <title>
-    ARC Xtudios — Cinematic Creative Production Agency
-  </title>
+    <title>
+        ARC Xtudios — Cinematic Creative Production Agency
+    </title>
 
-  <meta
-    name="description"
-    content="High-end cinematic commercial photography, fashion campaigns, brand visuals, weddings, and real estate content crafted for modern brands."
-  />
+    <meta name="description"
+        content="High-end cinematic commercial photography, fashion campaigns, brand visuals, weddings, and real estate content crafted for modern brands." />
 
-  <meta name="theme-color" content="#00111f" />
+    <meta name="theme-color" content="#00111f" />
 
-  <!-- SEO -->
-  <link rel="canonical" href="https://arcxtudios.com/" />
+    <!-- SEO -->
+    <link rel="canonical" href="https://arcxtudios.com/" />
 
-  <!-- Open Graph -->
-  <meta property="og:type" content="website" />
-  <meta property="og:title" content="ARC Xtudios" />
-  <meta
-    property="og:description"
-    content="Cinematic commercial production for brands, artists, and businesses."
-  />
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="ARC Xtudios" />
+    <meta property="og:description" content="Cinematic commercial production for brands, artists, and businesses." />
 
-  <!-- Twitter -->
-  <meta name="twitter:card" content="summary_large_image" />
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
 
-  <!-- PRECONNECT -->
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link
-    rel="preconnect"
-    href="https://fonts.gstatic.com"
-    crossorigin
-  />
+    <!-- PRECONNECT -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 
-  <!-- PRELOAD HERO IMAGE -->
-  <link
-    rel="preload"
-    as="image"
-    href="Images/hero-main.avif"
-    fetchpriority="high"
-  />
+    <!-- PRELOAD HERO IMAGE -->
+    <link rel="preload" as="image" href="Images/_DSC9756-HDR.webp" fetchpriority="high" />
 
-  <!-- NON-BLOCKING FONT LOAD -->
-  <link
-    rel="stylesheet"
-    href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500&family=Jost:wght@300;400;500&display=swap"
-    media="print"
-    onload="this.media='all'"
-  />
+    <!-- NON-BLOCKING FONT LOAD -->
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500&family=Jost:wght@300;400;500&display=swap"
+        media="print" onload="this.media='all'" />
 
-  <noscript>
-    <link
-      rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500&family=Jost:wght@300;400;500&display=swap"
-    />
-  </noscript>
+    <noscript>
+        <link rel="stylesheet"
+            href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500&family=Jost:wght@300;400;500&display=swap" />
+    </noscript>
 
-  <!-- MAIN CSS -->
-  <link rel="stylesheet" href="style.css" />
+    <!-- MAIN CSS -->
+    <link rel="stylesheet" href="style.css" />
 
-  <!-- FAVICONS -->
-  <link rel="icon" href="Images/favicon.ico" />
-  <link
-    rel="apple-touch-icon"
-    href="Images/favicon.ico"
-  />
+    <!-- FAVICONS -->
+    <link rel="icon" href="Images/favicon.ico" />
+    <link rel="apple-touch-icon" href="Images/favicon.ico" />
 
-  <!-- SCHEMA -->
-  <script type="application/ld+json">
+    <!-- SCHEMA -->
+    <script type="application/ld+json">
   {
     "@context": "https://schema.org",
     "@type": "ProfessionalService",
@@ -130,47 +105,81 @@
     ══════════════════════════════ -->
         <div class="pg active" id="pg-home">
 
-            <!-- 1. HERO SLIDESHOW -->
+            <!-- HERO -->
             <div class="home-hero">
-                <div class="hero-imgs">
-                    <div class="hero-img show"></div>
-                    <div class="hero-img"></div>
-                    <div class="hero-img"></div>
-                    <div class="hero-img"></div>
-                    <div class="hero-img"></div>
-                    <div class="hero-img"></div>
-                    <div class="hero-img"></div>
-                    <div class="hero-img"></div>
+
+                <div class="hero-slider">
+
+                    <img class="hero-slide active" src="Images/_DSC9756-HDR.webp" width="1920" height="1080"
+                        fetchpriority="high" decoding="async" alt="Commercial production" />
+
+                    <img class="hero-slide" src="Images/Picsart_25-10-30_17-51-14-983.webp" width="1920" height="1080"
+                        loading="eager" decoding="async" alt="Creative photography" />
+
+                    <img class="hero-slide" src="Images/Picsart_25-09-20_00-58-39-545.webp" width="1920" height="1080"
+                        loading="lazy" decoding="async" alt="Fashion visual production" />
+
+                    <img class="hero-slide" src="Images/IMG-20260413-WA0013.webp" width="1920" height="1080"
+                        loading="lazy" decoding="async" alt="Cinematic storytelling" />
+
                 </div>
+
                 <div class="hero-veil"></div>
+
                 <div class="hero-content">
+
                     <div class="hero-left">
-                        <span class="hero-eyebrow">ARC Xtudios · Creative Production Agency</span>
+
+                        <span class="hero-eyebrow">
+                            ARC Xtudios · Creative Production Agency
+                        </span>
+
                         <h1 class="hero-h1">
                             We Build<br>
                             Visual Assets<br>
                             <em>That Convert</em>
                         </h1>
+
                     </div>
+
                     <div class="hero-right">
-                        <p class="hero-sub">High-end commercial content for brands, artists, and businesses. Every frame
-                            is strategy — not just emotion.</p>
+
+                        <p class="hero-sub">
+                            High-end commercial content for brands,
+                            artists, and businesses.
+                            Every frame is strategy —
+                            not just emotion.
+                        </p>
+
                         <div class="hero-btns">
-                            <button class="btn-hero-fill" onclick="go('portfolio')">View Projects</button>
-                            <button class="btn-hero-ghost" onclick="go('contact')">Start Your Project</button>
+
+                            <button class="btn-hero-fill" data-go="portfolio">
+                                View Projects
+                            </button>
+
+                            <button class="btn-hero-ghost" data-go="contact">
+                                Start Your Project
+                            </button>
+
                         </div>
+
                     </div>
+
                 </div>
-                <div class="hero-dots">
-                    <div class="hdot on" onclick="setSlide(0)"></div>
-                    <div class="hdot" onclick="setSlide(1)"></div>
-                    <div class="hdot" onclick="setSlide(2)"></div>
-                    <div class="hdot" onclick="setSlide(3)"></div>
-                    <div class="hdot" onclick="setSlide(4)"></div>
-                    <div class="hdot" onclick="setSlide(5)"></div>
-                    <div class="hdot" onclick="setSlide(6)"></div>
-                    <div class="hdot" onclick="setSlide(7)"></div>
+
+                <!-- DOTS -->
+                <div class="hero-dots" aria-label="Hero slideshow navigation">
+
+                    <button class="hdot on" aria-label="Go to slide 1"></button>
+
+                    <button class="hdot" aria-label="Go to slide 2"></button>
+
+                    <button class="hdot" aria-label="Go to slide 3"></button>
+
+                    <button class="hdot" aria-label="Go to slide 4"></button>
+
                 </div>
+
             </div>
 
             <!-- 2. BUILT FOR BRANDS SECTION - REPLACED STATS -->
@@ -545,7 +554,7 @@
                     </div>
 
                     <div class="footer-nav-col">
-                        <h4 class="footer-col-h">Navigate</h4>
+                        <h3 class="footer-col-h">Navigate</h3>
                         <ul>
                             <li><a href="#" onclick="go('home');return false;">Home</a></li>
                             <li><a href="#" onclick="go('portfolio');return false;">Portfolio</a></li>
@@ -557,7 +566,7 @@
                     </div>
 
                     <div class="footer-nav-col">
-                        <h4 class="footer-col-h">Services</h4>
+                        <h3 class="footer-col-h">Services</h3>
                         <ul>
                             <li><a href="#" onclick="go('services');return false;">Commercial Advertisements</a></li>
                             <li><a href="#" onclick="go('services');return false;">Fashion &amp; Editorial</a></li>
@@ -570,7 +579,7 @@
                     </div>
 
                     <div class="footer-contact-col">
-                        <h4 class="footer-col-h">Contact Us</h4>
+                        <h3 class="footer-col-h">Contact Us</h3>
                         <div class="footer-contact-item">
                             <span class="fci-label">Location</span>
                             <span class="fci-val">Santiniketan, Bolpur, West Bengal, India</span>

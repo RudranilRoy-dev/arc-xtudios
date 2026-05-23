@@ -113,26 +113,81 @@ document.addEventListener("DOMContentLoaded", () => {
        HERO SLIDESHOW
     ═══════════════════════════════ */
 
-    let slide = 0;
-    const imgs = document.querySelectorAll('.hero-img');
-    const dots = document.querySelectorAll('.hdot');
+    /* HERO SLIDER */
+const slides = document.querySelectorAll('.hero-slide');
+const dots = document.querySelectorAll('.hdot');
 
-    window.setSlide = function (n) {
-        if (!imgs.length) return;
+let currentSlide = 0;
+let sliderInterval = null;
 
-        imgs[slide].classList.remove('show');
-        dots[slide].classList.remove('on');
-        slide = n;
-        imgs[slide].classList.add('show');
-        dots[slide].classList.add('on');
-    };
+/* CHANGE SLIDE */
+function goToSlide(index) {
 
-    if (imgs.length > 0) {
-        setInterval(() => {
-            setSlide((slide + 1) % imgs.length);
-        }, 5000);
+    slides[currentSlide]?.classList.remove('active');
+    dots[currentSlide]?.classList.remove('on');
+
+    currentSlide = index;
+
+    slides[currentSlide]?.classList.add('active');
+    dots[currentSlide]?.classList.add('on');
+}
+
+/* NEXT SLIDE */
+function nextSlide() {
+
+    const next =
+        (currentSlide + 1) % slides.length;
+
+    goToSlide(next);
+}
+
+/* AUTOPLAY */
+function startSlider() {
+
+    if (slides.length <= 1) return;
+
+    sliderInterval = setInterval(() => {
+
+        nextSlide();
+
+    }, 5000);
+}
+
+/* STOP */
+function stopSlider() {
+
+    clearInterval(sliderInterval);
+}
+
+/* DOT NAVIGATION */
+dots.forEach((dot, index) => {
+
+    dot.addEventListener('click', () => {
+
+        stopSlider();
+
+        goToSlide(index);
+
+        startSlider();
+    });
+
+});
+
+/* START */
+startSlider();
+
+/* PAUSE WHEN TAB INACTIVE */
+document.addEventListener('visibilitychange', () => {
+
+    if (document.hidden) {
+
+        stopSlider();
+
+    } else {
+
+        startSlider();
     }
-
+});
     /* ═══════════════════════════════
        NAVIGATION - FIXED FOR MOBILE
     ═══════════════════════════════ */
